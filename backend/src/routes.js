@@ -1,11 +1,14 @@
 import { Router } from 'express';
 
+import SessionController from './app/controllers/SessionController';
+
+import authMiddleware from './app/middlewares/auth';
+
 const routes = new Router();
 
-routes.get('/test', (request, response) => {
-  const { name } = request.query;
+routes.post('/sessions', SessionController.store);
 
-  response.status(200).json({ message: `hi ${name}` });
-});
+// Authentication middleware for the following routes
+routes.use(authMiddleware);
 
 export default routes;
