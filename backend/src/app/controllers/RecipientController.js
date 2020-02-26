@@ -3,6 +3,21 @@ import * as Yup from 'yup';
 import Recipient from '../models/Recipient';
 
 class RecipientController {
+  constructor() {
+    this.schema = Yup.object().shape({
+      name: Yup.string().required(),
+      street: Yup.string().required(),
+      number: Yup.number().required(),
+      complement: Yup.string().nullable(true),
+      state: Yup.string().required(),
+      city: Yup.string().required(),
+      cep: Yup.string().required(),
+    });
+
+    this.store = this.store.bind(this);
+    this.update = this.update.bind(this);
+  }
+
   async index(request, response) {
     const { page = 1, limit = process.env.PAGE_LIMIT } = request.query;
     const offset = (page - 1) * limit;
@@ -16,11 +31,13 @@ class RecipientController {
     const { rows, count } = recipients;
 
     return response.json({
-      result: rows,
+      rows,
+      returned: rows.length,
+      total: count,
       pagination: {
-        current: page,
-        size: limit,
-        last: Math.ceil(count / limit).toString(),
+        current: Number(page),
+        size: Number(limit),
+        last: Math.ceil(count / limit),
       },
     });
   }
@@ -36,17 +53,7 @@ class RecipientController {
   }
 
   async store(request, response) {
-    const schema = Yup.object().shape({
-      name: Yup.string().required(),
-      street: Yup.string().required(),
-      number: Yup.number().required(),
-      complement: Yup.string(),
-      state: Yup.string().required(),
-      city: Yup.string().required(),
-      cep: Yup.string().required(),
-    });
-
-    if (!(await schema.isValid(request.body))) {
+    if (!(await this.schema.isValid(request.body))) {
       return response.status(400).json({ error: 'Invalid data.' });
     }
 
@@ -56,17 +63,7 @@ class RecipientController {
   }
 
   async update(request, response) {
-    const schema = Yup.object().shape({
-      name: Yup.string().required(),
-      street: Yup.string().required(),
-      number: Yup.number().required(),
-      complement: Yup.string(),
-      state: Yup.string().required(),
-      city: Yup.string().required(),
-      cep: Yup.string().required(),
-    });
-
-    if (!(await schema.isValid(request.body))) {
+    if (!(await this.schema.isValid(request.body))) {
       return response.status(400).json({ error: 'Invalid data.' });
     }
 
