@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { parseISO, getHours, format } from 'date-fns';
 
 import Delivery from '../models/Delivery';
 import Recipient from '../models/Recipient';
@@ -10,12 +11,21 @@ class DeliveryController {
     this.schema = Yup.object().shape({
       recipient_id: Yup.number().required(),
       deliveryman_id: Yup.number().required(),
-      signature_id: Yup.number().nullable(true),
+      signature_id: Yup.number()
+        .nullable(true)
+        .when('end_date', (end_date, field) =>
+          end_date ? field.required() : field
+        ),
       product: Yup.string().required(),
       canceled_at: Yup.date().nullable(true),
       start_date: Yup.date().nullable(true),
       end_date: Yup.date().nullable(true),
     });
+
+    this.pickupHours = {
+      initial: process.env.PICKUP_INITIAL_HOUR,
+      final: process.env.PICKUP_FINAL_HOUR,
+    };
 
     this.store = this.store.bind(this);
     this.update = this.update.bind(this);
@@ -109,7 +119,26 @@ class DeliveryController {
       return response.status(400).json({ error: 'Invalid data.' });
     }
 
+    if (request.body.start_date) {
+      const startDateHour = getHours(parseISO(request.body.start_date));
+
+      if (
+        startDateHour < this.pickupHours.initial ||
+        startDateHour > this.pickupHours.final
+      ) {
+        return response.status(400).json({
+          error: `Pickups are only available from ${
+            this.pickupHours.initial
+          }h to ${this.pickupHours.final}h (GMT${format(new Date(), 'xxx')}).`,
+        });
+      }
+    }
+
     const delivery = await Delivery.create(request.body);
+
+    // Emails the courier notifying them of a new delivery to pickup
+    // --> insert code here <--
+    //
 
     return response.status(201).json(delivery);
   }
@@ -117,6 +146,21 @@ class DeliveryController {
   async update(request, response) {
     if (!(await this.schema.isValid(request.body))) {
       return response.status(400).json({ error: 'Invalid data.' });
+    }
+
+    if (request.body.start_date) {
+      const startDateHour = getHours(parseISO(request.body.start_date));
+
+      if (
+        startDateHour < this.pickupHours.initial ||
+        startDateHour > this.pickupHours.final
+      ) {
+        return response.status(400).json({
+          error: `Pickups are only available from ${
+            this.pickupHours.initial
+          }h to ${this.pickupHours.final}h (${format(new Date(), 'zzzz')}).`,
+        });
+      }
     }
 
     const delivery = await Delivery.findByPk(request.params.id);
