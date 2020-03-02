@@ -1,0 +1,13 @@
+<span>Hi, {{ deliverymanName }}!</span>
+<br />
+<p>Good news, we have a <strong>new delivery for you</strong>!</p>
+<p>The recipient <em>{{ recipientName }}</em>, resident at <strong>{{ recipientAddress }}</strong>, is waiting for their
+  parcel described as <em>{{ deliveryProduct }}</em>.</p>
+<p>
+  Please, as soon as possible, come to our office to pick up the delivery object.
+  <br />
+  <small style="color: #555">
+    Remember, delivery pickups are only available from <strong>{{ pickupInitialHour }}h</strong> to
+    <strong>{{ pickupFinalHour }}h</strong> ({{ localTimezone }}).
+  </small>
+</p>

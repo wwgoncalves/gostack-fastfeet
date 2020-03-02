@@ -6,6 +6,8 @@ import Recipient from '../models/Recipient';
 import Deliveryman from '../models/Deliveryman';
 import File from '../models/File';
 
+import Mail from '../../lib/Mail';
+
 class DeliveryController {
   constructor() {
     this.schema = Yup.object().shape({
@@ -26,6 +28,8 @@ class DeliveryController {
       initial: process.env.PICKUP_INITIAL_HOUR,
       final: process.env.PICKUP_FINAL_HOUR,
     };
+
+    this.localTZ = format(new Date(), 'zzzz');
 
     this.store = this.store.bind(this);
     this.update = this.update.bind(this);
@@ -127,17 +131,38 @@ class DeliveryController {
         startDateHour > this.pickupHours.final
       ) {
         return response.status(400).json({
-          error: `Pickups are only available from ${
-            this.pickupHours.initial
-          }h to ${this.pickupHours.final}h (GMT${format(new Date(), 'xxx')}).`,
+          error: `Pickups are only available from ${this.pickupHours.initial}h to ${this.pickupHours.final}h (${this.localTZ}).`,
         });
       }
+    }
+
+    const recipient = await Recipient.findByPk(request.body.recipient_id);
+    if (!recipient) {
+      return response.status(400).json({ error: 'Recipient not found.' });
+    }
+
+    const deliveryman = await Deliveryman.findByPk(request.body.deliveryman_id);
+    if (!deliveryman) {
+      return response.status(400).json({ error: 'Deliveryman not found.' });
     }
 
     const delivery = await Delivery.create(request.body);
 
     // Emails the courier notifying them of a new delivery to pickup
-    // --> insert code here <--
+    await Mail.sendMail({
+      to: `${deliveryman.name} <${deliveryman.email}>`,
+      subject: 'A new delivery has been assigned to you',
+      template: 'delivery',
+      context: {
+        deliverymanName: deliveryman.name,
+        recipientName: recipient.name,
+        recipientAddress: `${recipient.street} (${recipient.city}, ${recipient.state})`,
+        deliveryProduct: delivery.product,
+        pickupInitialHour: this.pickupHours.initial,
+        pickupFinalHour: this.pickupHours.final,
+        localTimezone: this.localTZ,
+      },
+    });
     //
 
     return response.status(201).json(delivery);
@@ -156,20 +181,48 @@ class DeliveryController {
         startDateHour > this.pickupHours.final
       ) {
         return response.status(400).json({
-          error: `Pickups are only available from ${
-            this.pickupHours.initial
-          }h to ${this.pickupHours.final}h (${format(new Date(), 'zzzz')}).`,
+          error: `Pickups are only available from ${this.pickupHours.initial}h to ${this.pickupHours.final}h (${this.localTZ}).`,
         });
       }
     }
 
     const delivery = await Delivery.findByPk(request.params.id);
-
     if (!delivery) {
       return response.status(400).json({ error: 'Delivery not found.' });
     }
 
+    const recipient = await Recipient.findByPk(request.body.recipient_id);
+    if (!recipient) {
+      return response.status(400).json({ error: 'Recipient not found.' });
+    }
+
+    const deliveryman = await Deliveryman.findByPk(request.body.deliveryman_id);
+    if (!deliveryman) {
+      return response.status(400).json({ error: 'Deliveryman not found.' });
+    }
+
+    const hasNewDeliveryman = delivery.deliveryman_id !== deliveryman.id;
+
     const deliveryUpdated = await delivery.update(request.body);
+
+    if (hasNewDeliveryman) {
+      // Emails the new courier notifying them of a new delivery to pickup
+      await Mail.sendMail({
+        to: `${deliveryman.name} <${deliveryman.email}>`,
+        subject: 'A new delivery has been assigned to you',
+        template: 'delivery',
+        context: {
+          deliverymanName: deliveryman.name,
+          recipientName: recipient.name,
+          recipientAddress: `${recipient.street} (${recipient.city}, ${recipient.state})`,
+          deliveryProduct: delivery.product,
+          pickupInitialHour: this.pickupHours.initial,
+          pickupFinalHour: this.pickupHours.final,
+          localTimezone: this.localTZ,
+        },
+      });
+      //
+    }
 
     return response.json(deliveryUpdated);
   }
