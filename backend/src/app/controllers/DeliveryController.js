@@ -6,7 +6,8 @@ import Recipient from '../models/Recipient';
 import Deliveryman from '../models/Deliveryman';
 import File from '../models/File';
 
-import Mail from '../../lib/Mail';
+import DeliveryMail from '../jobs/DeliveryMail';
+import Queue from '../../lib/Queue';
 
 class DeliveryController {
   constructor() {
@@ -149,18 +150,13 @@ class DeliveryController {
     const delivery = await Delivery.create(request.body);
 
     // Emails the courier notifying them of a new delivery to pickup
-    await Mail.sendMail({
-      to: `${deliveryman.name} <${deliveryman.email}>`,
-      subject: 'A new delivery has been assigned to you',
-      template: 'delivery',
-      context: {
-        deliverymanName: deliveryman.name,
-        recipientName: recipient.name,
-        recipientAddress: `${recipient.street} (${recipient.city}, ${recipient.state})`,
-        deliveryProduct: delivery.product,
-        pickupInitialHour: this.pickupHours.initial,
-        pickupFinalHour: this.pickupHours.final,
-        localTimezone: this.localTZ,
+    await Queue.add(DeliveryMail.key, {
+      delivery,
+      recipient,
+      deliveryman,
+      timeInfo: {
+        pickupHours: this.pickupHours,
+        localTZ: this.localTZ,
       },
     });
     //
@@ -207,18 +203,13 @@ class DeliveryController {
 
     if (hasNewDeliveryman) {
       // Emails the new courier notifying them of a new delivery to pickup
-      await Mail.sendMail({
-        to: `${deliveryman.name} <${deliveryman.email}>`,
-        subject: 'A new delivery has been assigned to you',
-        template: 'delivery',
-        context: {
-          deliverymanName: deliveryman.name,
-          recipientName: recipient.name,
-          recipientAddress: `${recipient.street} (${recipient.city}, ${recipient.state})`,
-          deliveryProduct: delivery.product,
-          pickupInitialHour: this.pickupHours.initial,
-          pickupFinalHour: this.pickupHours.final,
-          localTimezone: this.localTZ,
+      await Queue.add(DeliveryMail.key, {
+        delivery,
+        recipient,
+        deliveryman,
+        timeInfo: {
+          pickupHours: this.pickupHours,
+          localTZ: this.localTZ,
         },
       });
       //
