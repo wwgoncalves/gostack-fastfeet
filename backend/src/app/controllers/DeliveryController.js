@@ -26,8 +26,8 @@ class DeliveryController {
     });
 
     this.pickupHours = {
-      initial: process.env.PICKUP_INITIAL_HOUR,
-      final: process.env.PICKUP_FINAL_HOUR,
+      initial: Number(process.env.PICKUP_INITIAL_HOUR),
+      final: Number(process.env.PICKUP_FINAL_HOUR),
     };
 
     this.localTZ = format(new Date(), 'zzzz');
@@ -159,7 +159,6 @@ class DeliveryController {
         localTZ: this.localTZ,
       },
     });
-    //
 
     return response.status(201).json(delivery);
   }
@@ -212,7 +211,6 @@ class DeliveryController {
           localTZ: this.localTZ,
         },
       });
-      //
     }
 
     return response.json(deliveryUpdated);

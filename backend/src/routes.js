@@ -6,6 +6,7 @@ import RecipientController from './app/controllers/RecipientController';
 import FileController from './app/controllers/FileController';
 import DeliverymanController from './app/controllers/DeliverymanController';
 import DeliveryController from './app/controllers/DeliveryController';
+import AssignmentController from './app/controllers/AssignmentController';
 
 import authMiddleware from './app/middlewares/auth';
 import multerConfig from './config/multer';
@@ -14,13 +15,24 @@ const routes = new Router();
 const upload = multer(multerConfig);
 
 routes.post('/sessions', SessionController.store);
-// File uploading DOES NOT REQUIRE authentication
-// routes.post('/files', upload.single('file'), FileController.store);
+
+routes.get('/deliverymen/:id/deliveries', AssignmentController.index);
+routes.get(
+  '/deliverymen/:id/deliveries/:delivery_id',
+  AssignmentController.show
+);
+routes.put(
+  '/deliverymen/:id/deliveries/:delivery_id',
+  AssignmentController.update
+);
+
+// This file uploading route DOES NOT REQUIRE authentication
+// routes.post('/deliverymen/:id/files', upload.single('file'), FileController.store);
 
 // Authentication middleware for the following routes
 routes.use(authMiddleware);
 
-// File uploading DOES REQUIRES authentication
+// This file uploading route DOES REQUIRES authentication
 routes.post('/files', upload.single('file'), FileController.store);
 
 routes.get('/recipients', RecipientController.index);
