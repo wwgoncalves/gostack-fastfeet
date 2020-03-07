@@ -7,6 +7,8 @@ import FileController from './app/controllers/FileController';
 import DeliverymanController from './app/controllers/DeliverymanController';
 import DeliveryController from './app/controllers/DeliveryController';
 import AssignmentController from './app/controllers/AssignmentController';
+import DeliveryProblemController from './app/controllers/DeliveryProblemController';
+import ProblemByDeliveryController from './app/controllers/ProblemByDeliveryController';
 
 import authMiddleware from './app/middlewares/auth';
 import multerConfig from './config/multer';
@@ -26,8 +28,17 @@ routes.put(
   AssignmentController.update
 );
 
+routes.get('/deliveries/:id/problems', ProblemByDeliveryController.index);
+routes.post('/deliveries/:id/problems', ProblemByDeliveryController.store);
+
 // This file uploading route DOES NOT REQUIRE authentication
-// routes.post('/deliverymen/:id/files', upload.single('file'), FileController.store);
+routes.post(
+  '/deliverymen/:id/files',
+  upload.single('file'),
+  FileController.store
+);
+
+/* ******************************************************************************** */
 
 // Authentication middleware for the following routes
 routes.use(authMiddleware);
@@ -52,5 +63,9 @@ routes.post('/deliveries', DeliveryController.store);
 routes.get('/deliveries/:id', DeliveryController.show);
 routes.put('/deliveries/:id', DeliveryController.update);
 routes.delete('/deliveries/:id', DeliveryController.delete);
+
+routes.get('/problems', DeliveryProblemController.index);
+routes.get('/problems/:id', DeliveryProblemController.show);
+routes.delete('/problems/:id/delivery', DeliveryProblemController.delete);
 
 export default routes;

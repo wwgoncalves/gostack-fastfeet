@@ -1,29 +1,26 @@
 import Mail from '../../lib/Mail';
 
-class DeliveryMail {
+class CancellationMail {
   get key() {
-    return 'DeliveryMail';
+    return 'CancellationMail';
   }
 
   // Handle the task to be executed
   async handle({ data }) {
-    const { delivery, recipient, deliveryman, timeInfo } = data;
+    const { delivery, recipient, deliveryman } = data;
 
     return Mail.sendMail({
       to: `${deliveryman.name} <${deliveryman.email}>`,
-      subject: `Delivery #${delivery.id} has been assigned to you`,
-      template: 'delivery',
+      subject: `Delivery #${delivery.id} has been canceled`,
+      template: 'cancellation',
       context: {
         deliverymanName: deliveryman.name,
         recipientName: recipient.name,
         recipientAddress: `${recipient.street} (${recipient.city}, ${recipient.state})`,
         deliveryProduct: delivery.product,
-        pickupInitialHour: timeInfo.pickupHours.initial,
-        pickupFinalHour: timeInfo.pickupHours.final,
-        localTimezone: timeInfo.localTZ,
       },
     });
   }
 }
 
-export default new DeliveryMail();
+export default new CancellationMail();
