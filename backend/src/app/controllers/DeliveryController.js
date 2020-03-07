@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import { parseISO, getHours, format } from 'date-fns';
+import { Op } from 'sequelize';
 
 import Delivery from '../models/Delivery';
 import Recipient from '../models/Recipient';
@@ -37,10 +38,15 @@ class DeliveryController {
   }
 
   async index(request, response) {
-    const { page = 1, limit = process.env.PAGE_LIMIT } = request.query;
+    const { page = 1, limit = process.env.PAGE_LIMIT, q = '' } = request.query;
     const offset = (page - 1) * limit;
 
     const deliveries = await Delivery.findAndCountAll({
+      where: {
+        product: {
+          [Op.iLike]: `%${q}%`,
+        },
+      },
       limit,
       offset,
       order: ['id'],

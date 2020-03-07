@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { Op } from 'sequelize';
 
 import Recipient from '../models/Recipient';
 
@@ -19,10 +20,15 @@ class RecipientController {
   }
 
   async index(request, response) {
-    const { page = 1, limit = process.env.PAGE_LIMIT } = request.query;
+    const { page = 1, limit = process.env.PAGE_LIMIT, q = '' } = request.query;
     const offset = (page - 1) * limit;
 
     const recipients = await Recipient.findAndCountAll({
+      where: {
+        name: {
+          [Op.iLike]: `%${q}%`,
+        },
+      },
       limit,
       offset,
       order: ['id'],
