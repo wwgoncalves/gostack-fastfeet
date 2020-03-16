@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { darken } from 'polished';
 
 export const Wrapper = styled.div`
   height: 100%;
@@ -14,11 +15,12 @@ export const Content = styled.div`
   background-color: #ffffff;
   border-radius: 4px;
   text-align: center;
+  padding: 30px;
 
   img {
     width: 100%;
     max-width: 260px;
-    margin: 60px 30px 40px;
+    margin: 30px 0 40px;
   }
 
   form {
@@ -29,7 +31,6 @@ export const Content = styled.div`
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      margin: 0 30px;
       font-weight: bold;
 
       input {
@@ -37,7 +38,7 @@ export const Content = styled.div`
         border: 1px solid #ddd;
         border-radius: 4px;
         height: 45px;
-        padding: 12px 15px;
+        padding: 0 15px;
         margin: 10px 0 15px;
         font-size: 16px;
 
@@ -48,14 +49,19 @@ export const Content = styled.div`
     }
 
     button {
+      height: 45px;
       background-color: #7d40e7;
       color: #fff;
       font-size: 16px;
       font-weight: bold;
       border: 0;
       border-radius: 4px;
-      padding: 12px 0;
-      margin: 0 30px 60px;
+      margin: 0 0 30px;
+      transition: background 0.2s;
+
+      &:hover {
+        background-color: ${darken(0.05, '#7d40e7')};
+      }
     }
   }
 `;
