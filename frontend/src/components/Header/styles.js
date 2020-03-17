@@ -57,10 +57,6 @@ export const Container = styled.div`
         text-decoration: underline;
       }
     }
-
-    /* @media (max-width: 900px) {
-      display: none;
-    } */
   }
 `;
 
