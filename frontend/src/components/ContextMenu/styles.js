@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { darken } from 'polished';
 
 export const Container = styled.span`
   position: relative;
@@ -13,14 +14,16 @@ export const MenuButton = styled.button`
   border: 0;
   background-color: #fff;
   border-radius: 4px;
-  position: relative;
+  /* position: relative; */
 
   &:hover {
     box-shadow: 1px -1px 2px rgba(0, 0, 0, 0.15);
   }
 `;
 
-export const Menu = styled.div`
+export const Menu = styled.div.attrs({
+  tabIndex: -1,
+})`
   position: absolute;
   width: 150px;
   left: calc(50% - 75px);
@@ -33,6 +36,7 @@ export const Menu = styled.div`
   display: ${props => (props.visible ? 'flex !important' : 'none !important')};
   flex-direction: column !important;
   align-items: flex-start !important;
+  z-index: 1;
 
   &::before {
     content: '';
@@ -64,5 +68,9 @@ export const Action = styled.button`
 
   & + button {
     border-top: 1px solid #eee;
+  }
+
+  &:hover {
+    background-color: ${props => darken(0.05, '#fff')};
   }
 `;

@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  MdMoreHoriz,
-  MdVisibility,
-  MdCreate,
-  MdDeleteForever,
-} from 'react-icons/md';
+import { MdVisibility, MdCreate, MdDeleteForever } from 'react-icons/md';
 
 import { Container } from './styles';
 
@@ -15,8 +10,14 @@ import StatusTag from '~/components/StatusTag';
 import ContextMenu from '~/components/ContextMenu';
 
 export default function Deliveries() {
-  function test(id) {
-    window.alert(id);
+  function visualize(id) {
+    window.alert(`visualize() should be implemented - ${id}`);
+  }
+  function edit(id) {
+    window.alert(`edit() should be implemented - ${id}`);
+  }
+  function remove(id) {
+    window.alert(`remove() should be implemented - ${id}`);
   }
 
   const header = [
@@ -28,24 +29,24 @@ export default function Deliveries() {
     'Status',
     'Ações',
   ];
-  const actions = [
+  const menuActions = [
     {
       id: 1,
       icon: <MdVisibility size={16} color="#8E5BE8" />,
       label: 'Visualizar',
-      fn: test,
+      fn: visualize,
     },
     {
       id: 2,
       icon: <MdCreate size={16} color="#4D85EE" />,
       label: 'Editar',
-      fn: test,
+      fn: edit,
     },
     {
       id: 3,
       icon: <MdDeleteForever size={16} color="#DE3B3B" />,
       label: 'Excluir',
-      fn: test,
+      fn: remove,
     },
   ];
   const dataArray = [
@@ -56,7 +57,7 @@ export default function Deliveries() {
       'Rio do Sul',
       'Santa Catarina',
       <StatusTag code={2} />,
-      <ContextMenu actions={actions} contextId={1} />,
+      <ContextMenu menuActions={menuActions} contextId={1} />,
     ],
     [
       '#02',
@@ -65,7 +66,7 @@ export default function Deliveries() {
       'Rio do Sul',
       'Santa Catarina',
       <StatusTag code={0} />,
-      <MdMoreHoriz size={24} color="#c6c6c6" />,
+      <ContextMenu menuActions={menuActions} contextId={2} />,
     ],
     [
       '#03',
@@ -74,7 +75,7 @@ export default function Deliveries() {
       'Rio do Sul',
       'Santa Catarina',
       <StatusTag code={1} />,
-      <MdMoreHoriz size={24} color="#c6c6c6" />,
+      <ContextMenu menuActions={menuActions} contextId={3} />,
     ],
     [
       '#04',
@@ -83,7 +84,7 @@ export default function Deliveries() {
       'Rio do Sul',
       'Santa Catarina',
       <StatusTag code={9} />,
-      <MdMoreHoriz size={24} color="#c6c6c6" />,
+      <ContextMenu menuActions={menuActions} contextId={4} />,
     ],
   ];
 
