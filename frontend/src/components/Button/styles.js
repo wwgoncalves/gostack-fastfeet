@@ -6,7 +6,7 @@ export const Container = styled.button.attrs({
 })`
   height: 36px;
   background-color: ${props => props.bgColor};
-  color: #fff;
+  color: ${props => props.color};
   border: 0;
   border-radius: 4px;
   font-weight: bold;
@@ -17,6 +17,7 @@ export const Container = styled.button.attrs({
 
   span {
     height: 24px;
+    margin-right: 5px;
   }
 
   &:hover {
