@@ -1,12 +1,10 @@
-import styled from 'styled-components';
-import { darken } from 'polished';
+import styled, { css } from 'styled-components';
+import { lighten, darken } from 'polished';
 
 export const Container = styled.button.attrs({
   type: 'button',
 })`
   height: 36px;
-  background-color: ${props => props.bgColor};
-  color: ${props => props.color};
   border: 0;
   border-radius: 4px;
   font-weight: bold;
@@ -17,10 +15,30 @@ export const Container = styled.button.attrs({
 
   span {
     height: 24px;
-    margin-right: 5px;
+    ${props =>
+      props.iconOnTheRight
+        ? css`
+            margin-left: 5px;
+          `
+        : css`
+            margin-right: 5px;
+          `}
   }
 
-  &:hover {
-    background-color: ${props => darken(0.05, props.bgColor)};
-  }
+  ${props =>
+    props.disabled
+      ? css`
+          background-color: ${props => lighten(0.15, props.bgColor)};
+          color: ${props => lighten(0.15, props.color)};
+          cursor: not-allowed;
+        `
+      : css`
+          background-color: ${props => props.bgColor};
+          color: ${props => props.color};
+          transition: background-color 0.2s;
+
+          &:hover {
+            background-color: ${props => darken(0.1, props.bgColor)};
+          }
+        `}
 `;

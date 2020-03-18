@@ -8,6 +8,7 @@ import Button from '~/components/Button';
 import DataTable from '~/components/DataTable';
 import StatusTag from '~/components/StatusTag';
 import ContextMenu from '~/components/ContextMenu';
+import PaginationBar from '~/components/PaginationBar';
 
 export default function Deliveries() {
   function visualize(id) {
@@ -19,8 +20,11 @@ export default function Deliveries() {
   function remove(id) {
     window.alert(`remove() should be implemented - ${id}`);
   }
+  function onPageChange(page) {
+    window.alert(`onPageChange() should be implemented - ${page}`);
+  }
 
-  const header = [
+  const tableHeader = [
     'ID',
     'Destinatário',
     'Entregador',
@@ -88,6 +92,12 @@ export default function Deliveries() {
     ],
   ];
 
+  const paginationInfo = {
+    current: 1,
+    size: 5,
+    last: 3,
+  };
+
   return (
     <Container>
       <h1>Gerenciando encomendas</h1>
@@ -95,7 +105,8 @@ export default function Deliveries() {
         <SearchInput placeholder="Buscar por encomendas" />
         <Button icon="MdAdd" text="Cadastrar" />
       </div>
-      <DataTable header={header} dataArray={dataArray} />
+      <DataTable header={tableHeader} dataArray={dataArray} />
+      <PaginationBar info={paginationInfo} onPageChange={onPageChange} />
     </Container>
   );
 }
