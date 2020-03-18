@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MdVisibility, MdCreate, MdDeleteForever } from 'react-icons/md';
 
 import { Container } from './styles';
@@ -20,7 +20,14 @@ export default function Deliveries() {
   function remove(id) {
     window.alert(`remove() should be implemented - ${id}`);
   }
+
+  const [paginationInfo, setPaginationInfo] = useState({
+    current: 6,
+    size: 5,
+    last: 27,
+  });
   function onPageChange(page) {
+    setPaginationInfo({ ...paginationInfo, current: page });
     window.alert(`onPageChange() should be implemented - ${page}`);
   }
 
@@ -91,12 +98,6 @@ export default function Deliveries() {
       <ContextMenu menuActions={menuActions} contextId={4} />,
     ],
   ];
-
-  const paginationInfo = {
-    current: 1,
-    size: 5,
-    last: 3,
-  };
 
   return (
     <Container>

@@ -6,6 +6,8 @@ import Button from '~/components/Button';
 
 export default function PaginationBar({ info, onPageChange }) {
   // and onSizePageChange ???
+  const pagesRange = [-3, -2, -1, 0, 1, 2, 3];
+
   return (
     <>
       {info.last > 0 && (
@@ -14,24 +16,33 @@ export default function PaginationBar({ info, onPageChange }) {
           <Button
             icon="MdChevronLeft"
             text="Anterior"
-            disabled
+            disabled={info.current - 1 < 1}
             onClick={() => onPageChange(info.current - 1)}
           />
-          <Button bgColor="#999" text={String(info.current)} />
-          <Button
-            bgColor="#ccc"
-            text={String(info.current + 1)}
-            onClick={() => onPageChange(info.current + 1)}
-          />
-          <Button
-            bgColor="#ccc"
-            text={String(info.current + 2)}
-            onClick={() => onPageChange(info.current + 2)}
-          />
+          {pagesRange.map(number => {
+            if (
+              !(info.current + number < 1 || info.current + number > info.last)
+            ) {
+              const text = String(info.current + number);
+              const bgColor = number === 0 ? '#999' : '#ccc';
+              const onClick =
+                number === 0 ? null : () => onPageChange(info.current + number);
+              return (
+                <Button
+                  key={String(number)}
+                  bgColor={bgColor}
+                  text={text}
+                  onClick={onClick}
+                />
+              );
+            }
+            return null;
+          })}
           <Button
             icon="MdChevronRight"
             iconOnTheRight
             text="Próxima"
+            disabled={info.current + 1 > info.last}
             onClick={() => onPageChange(info.current + 1)}
           />
           <Button
