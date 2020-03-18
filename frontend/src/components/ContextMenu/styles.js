@@ -14,10 +14,11 @@ export const MenuButton = styled.button`
   border: 0;
   background-color: #fff;
   border-radius: 4px;
-  /* position: relative; */
 
   &:hover {
-    box-shadow: 1px -1px 2px rgba(0, 0, 0, 0.15);
+    svg {
+      fill: #666;
+    }
   }
 `;
 
@@ -71,6 +72,6 @@ export const Action = styled.button`
   }
 
   &:hover {
-    background-color: ${props => darken(0.05, '#fff')};
+    background-color: ${() => darken(0.05, '#fff')};
   }
 `;

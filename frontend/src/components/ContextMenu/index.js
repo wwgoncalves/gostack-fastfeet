@@ -8,8 +8,12 @@ export default function ContextMenu({ menuActions, contextId }) {
   const [visible, setVisible] = useState(false);
   const menuRef = useRef(null);
 
-  function handleToggleVisible() {
+  function handleVisibilityToggle() {
     setVisible(!visible);
+  }
+
+  function handleHiddenness() {
+    setVisible(false);
   }
 
   useEffect(() => {
@@ -20,10 +24,17 @@ export default function ContextMenu({ menuActions, contextId }) {
 
   return (
     <Container>
-      <MenuButton onClick={handleToggleVisible}>
+      <MenuButton
+        onMouseDown={e => e.preventDefault()}
+        onClick={handleVisibilityToggle}
+      >
         <MdMoreHoriz size={24} color="#c6c6c6" />
       </MenuButton>
-      <Menu visible={visible} ref={menuRef} onBlur={handleToggleVisible}>
+      <Menu
+        visible={visible}
+        ref={menuRef}
+        onBlur={() => (visible ? handleHiddenness() : false)}
+      >
         {menuActions.map(action => (
           <Action
             key={String(action.id)}
