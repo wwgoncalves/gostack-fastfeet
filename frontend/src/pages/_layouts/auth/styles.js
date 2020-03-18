@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { darken } from 'polished';
 
 export const Wrapper = styled.div`
@@ -7,6 +7,12 @@ export const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  ${() => css`
+    body:not(&) {
+      background-color: #7d40e7;
+    }
+  `};
 `;
 
 export const Content = styled.div`

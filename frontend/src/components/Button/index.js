@@ -12,6 +12,7 @@ export default function Button({
   text,
   onClick,
   disabled,
+  title,
 }) {
   const MdIcon = icon && Md[icon];
 
@@ -22,6 +23,7 @@ export default function Button({
       onClick={onClick}
       iconOnTheRight={iconOnTheRight}
       disabled={disabled}
+      title={title}
     >
       {icon && !iconOnTheRight && (
         <span>
@@ -46,6 +48,7 @@ Button.propTypes = {
   onClick: PropTypes.func,
   iconOnTheRight: PropTypes.bool,
   disabled: PropTypes.bool,
+  title: PropTypes.string,
 };
 
 Button.defaultProps = {
@@ -56,4 +59,5 @@ Button.defaultProps = {
   onClick: null,
   iconOnTheRight: false,
   disabled: false,
+  title: null,
 };

@@ -28,17 +28,17 @@ export const Container = styled.button.attrs({
   ${props =>
     props.disabled
       ? css`
-          background-color: ${props => lighten(0.15, props.bgColor)};
-          color: ${props => lighten(0.15, props.color)};
+          background-color: ${lighten(0.15, props.bgColor)};
+          color: ${lighten(0.15, props.color)};
           cursor: not-allowed;
         `
       : css`
-          background-color: ${props => props.bgColor};
-          color: ${props => props.color};
+          background-color: ${props.bgColor};
+          color: ${props.color};
           transition: background-color 0.2s;
 
           &:hover {
-            background-color: ${props => darken(0.1, props.bgColor)};
+            background-color: ${darken(0.1, props.bgColor)};
           }
         `}
 `;

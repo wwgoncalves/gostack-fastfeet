@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MdVisibility, MdCreate, MdDeleteForever } from 'react-icons/md';
 
 import { Container } from './styles';
@@ -9,27 +9,42 @@ import DataTable from '~/components/DataTable';
 import StatusTag from '~/components/StatusTag';
 import ContextMenu from '~/components/ContextMenu';
 import PaginationBar from '~/components/PaginationBar';
+import LoadingIndicator from '~/components/LoadingIndicator';
 
 export default function Deliveries() {
   function visualize(id) {
-    window.alert(`visualize() should be implemented - ${id}`);
+    console.log(`visualize() should be implemented - ${id}`);
   }
   function edit(id) {
-    window.alert(`edit() should be implemented - ${id}`);
+    console.log(`edit() should be implemented - ${id}`);
   }
   function remove(id) {
-    window.alert(`remove() should be implemented - ${id}`);
+    console.log(`remove() should be implemented - ${id}`);
+  }
+
+  const [loading, setLoading] = useState(false);
+  function loadData() {
+    console.log(`loadData() should be implemented`);
+
+    setLoading(true);
+    setTimeout(() => setLoading(false), 2000);
   }
 
   const [paginationInfo, setPaginationInfo] = useState({
-    current: 6,
+    current: 1,
     size: 5,
     last: 27,
   });
   function onPageChange(page) {
+    console.log(`onPageChange() should be implemented - ${page}`);
+
     setPaginationInfo({ ...paginationInfo, current: page });
-    window.alert(`onPageChange() should be implemented - ${page}`);
+    loadData();
   }
+
+  useEffect(() => {
+    loadData();
+  }, []);
 
   const tableHeader = [
     'ID',
@@ -101,13 +116,19 @@ export default function Deliveries() {
 
   return (
     <Container>
-      <h1>Gerenciando encomendas</h1>
-      <div>
-        <SearchInput placeholder="Buscar por encomendas" />
-        <Button icon="MdAdd" text="Cadastrar" />
-      </div>
-      <DataTable header={tableHeader} dataArray={dataArray} />
-      <PaginationBar info={paginationInfo} onPageChange={onPageChange} />
+      {loading ? (
+        <LoadingIndicator size={80} color="#ddd" />
+      ) : (
+        <>
+          <h1>Gerenciando encomendas</h1>
+          <div>
+            <SearchInput placeholder="Buscar por encomendas" />
+            <Button icon="MdAdd" text="Cadastrar" />
+          </div>
+          <DataTable header={tableHeader} dataArray={dataArray} />
+          <PaginationBar info={paginationInfo} onPageChange={onPageChange} />
+        </>
+      )}
     </Container>
   );
 }

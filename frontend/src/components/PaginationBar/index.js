@@ -10,9 +10,14 @@ export default function PaginationBar({ info, onPageChange }) {
 
   return (
     <>
-      {info.last > 0 && (
+      {info.last > 1 && (
         <Container>
-          <Button icon="MdFirstPage" onClick={() => onPageChange(1)} />
+          <Button
+            icon="MdFirstPage"
+            disabled={info.current === 1}
+            onClick={() => onPageChange(1)}
+            title="Página 1"
+          />
           <Button
             icon="MdChevronLeft"
             text="Anterior"
@@ -48,7 +53,9 @@ export default function PaginationBar({ info, onPageChange }) {
           <Button
             icon="MdLastPage"
             iconOnTheRight
+            disabled={info.current === info.last}
             onClick={() => onPageChange(info.last)}
+            title={`Página ${info.last}`}
           />
         </Container>
       )}
