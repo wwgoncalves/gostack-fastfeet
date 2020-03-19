@@ -11,6 +11,7 @@ import ContextMenu from '~/components/ContextMenu';
 import PaginationBar from '~/components/PaginationBar';
 import LoadingIndicator from '~/components/LoadingIndicator';
 import Modal from '~/components/Modal';
+import AvatarPlaceholder from '~/components/AvatarPlaceholder';
 
 export default function Deliveries() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -95,7 +96,9 @@ export default function Deliveries() {
     [
       '#01',
       'Ludwig van Beethoven',
-      'John Doe',
+      <AvatarPlaceholder size={35} name="John Doe">
+        John Doe
+      </AvatarPlaceholder>,
       'Rio do Sul',
       'Santa Catarina',
       <StatusTag code={2} />,
@@ -104,7 +107,9 @@ export default function Deliveries() {
     [
       '#02',
       'Wolfgang Amadeus',
-      'Gaspar Antunes',
+      <AvatarPlaceholder size={35} name="Gaspar Antunes">
+        Gaspar Antunes
+      </AvatarPlaceholder>,
       'Rio do Sul',
       'Santa Catarina',
       <StatusTag code={0} />,
@@ -113,7 +118,9 @@ export default function Deliveries() {
     [
       '#03',
       'Johann Sebastian Bach',
-      'Dai Jiang',
+      <AvatarPlaceholder size={35} name="Dai Jiang">
+        Dai Jiang
+      </AvatarPlaceholder>,
       'Rio do Sul',
       'Santa Catarina',
       <StatusTag code={1} />,
@@ -122,7 +129,9 @@ export default function Deliveries() {
     [
       '#04',
       'Frédéric Chopin',
-      'Tom Hanson',
+      <AvatarPlaceholder size={35} name="Tom Hanson">
+        Tom Hanson
+      </AvatarPlaceholder>,
       'Rio do Sul',
       'Santa Catarina',
       <StatusTag code={9} />,
