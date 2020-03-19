@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { MdVisibility, MdCreate, MdDeleteForever } from 'react-icons/md';
 
-import { Container } from './styles';
+import { Container, ModalContent } from './styles';
 
 import SearchInput from '~/components/SearchInput';
 import Button from '~/components/Button';
@@ -10,16 +10,32 @@ import StatusTag from '~/components/StatusTag';
 import ContextMenu from '~/components/ContextMenu';
 import PaginationBar from '~/components/PaginationBar';
 import LoadingIndicator from '~/components/LoadingIndicator';
+import Modal from '~/components/Modal';
 
 export default function Deliveries() {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalContent, setModalContent] = useState(null);
   function visualize(id) {
     console.log(`visualize() should be implemented - ${id}`);
+
+    setModalVisible(true);
+    setModalContent(
+      <ModalContent onClick={e => e.stopPropagation()}>
+        <h2>Isto é apenas um teste</h2>
+        <div>um dois três</div>
+        <span>...ID: {id}...</span>
+      </ModalContent>
+    );
   }
   function edit(id) {
     console.log(`edit() should be implemented - ${id}`);
   }
   function remove(id) {
     console.log(`remove() should be implemented - ${id}`);
+  }
+  function handleModalClose() {
+    setModalVisible(false);
+    setModalContent(null);
   }
 
   const [loading, setLoading] = useState(false);
@@ -115,20 +131,23 @@ export default function Deliveries() {
   ];
 
   return (
-    <Container>
-      {loading ? (
-        <LoadingIndicator size={80} color="#ddd" />
-      ) : (
-        <>
-          <h1>Gerenciando encomendas</h1>
-          <div>
-            <SearchInput placeholder="Buscar por encomendas" />
-            <Button icon="MdAdd" text="Cadastrar" />
-          </div>
-          <DataTable header={tableHeader} dataArray={dataArray} />
-          <PaginationBar info={paginationInfo} onPageChange={onPageChange} />
-        </>
-      )}
-    </Container>
+    <>
+      <Container>
+        {loading ? (
+          <LoadingIndicator size={80} color="#ddd" />
+        ) : (
+          <>
+            <h1>Gerenciando encomendas</h1>
+            <div>
+              <SearchInput placeholder="Buscar por encomendas" />
+              <Button icon="MdAdd" text="Cadastrar" />
+            </div>
+            <DataTable header={tableHeader} dataArray={dataArray} />
+            <PaginationBar info={paginationInfo} onPageChange={onPageChange} />
+          </>
+        )}
+      </Container>
+      {modalVisible && <Modal onClose={handleModalClose}>{modalContent}</Modal>}
+    </>
   );
 }
