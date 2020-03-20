@@ -50,12 +50,18 @@ export default function Deliveries() {
   const [paginationInfo, setPaginationInfo] = useState({
     current: 1,
     size: 5,
-    last: 27,
+    last: 927,
   });
   function onPageChange(page) {
     console.log(`onPageChange() should be implemented - ${page}`);
 
     setPaginationInfo({ ...paginationInfo, current: page });
+    loadData();
+  }
+  function onPageSizeChange(size) {
+    console.log(`onPageSizeChange() should be implemented - ${size}`);
+
+    setPaginationInfo({ ...paginationInfo, size });
     loadData();
   }
 
@@ -152,7 +158,11 @@ export default function Deliveries() {
               <Button icon="MdAdd" text="Cadastrar" />
             </div>
             <DataTable header={tableHeader} dataArray={dataArray} />
-            <PaginationBar info={paginationInfo} onPageChange={onPageChange} />
+            <PaginationBar
+              info={paginationInfo}
+              onPageChange={onPageChange}
+              onPageSizeChange={onPageSizeChange}
+            />
           </>
         )}
       </Container>
