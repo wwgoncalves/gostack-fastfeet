@@ -9,7 +9,7 @@ export default function PaginationBar({
   onPageChange,
   onPageSizeChange,
 }) {
-  const pageSizes = [5, 25, 50];
+  const pageSizes = [10, 25, 50];
   const pageRanges = [-2, -1, 0, 1, 2];
 
   return (
@@ -40,9 +40,9 @@ export default function PaginationBar({
             />
             <Button
               icon="MdChevronLeft"
-              text="Anterior"
               disabled={info.current - 1 < 1}
               onClick={() => onPageChange(info.current - 1)}
+              title="Anterior"
             />
             {pageRanges.map(range => {
               if (
@@ -67,9 +67,9 @@ export default function PaginationBar({
             <Button
               icon="MdChevronRight"
               iconOnTheRight
-              text="Próxima"
               disabled={info.current + 1 > info.last}
               onClick={() => onPageChange(info.current + 1)}
+              title="Próxima"
             />
             <Button
               icon="MdLastPage"

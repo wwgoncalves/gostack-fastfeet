@@ -49,7 +49,7 @@ export default function Deliveries() {
 
   const [paginationInfo, setPaginationInfo] = useState({
     current: 1,
-    size: 5,
+    size: 25,
     last: 927,
   });
   function onPageChange(page) {

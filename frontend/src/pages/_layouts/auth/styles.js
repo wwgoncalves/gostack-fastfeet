@@ -16,11 +16,11 @@ export const Wrapper = styled.div`
 export const Content = styled.div`
   width: 100%;
   max-width: 360px;
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 4px;
   text-align: center;
   padding: 30px;
-
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   img {
     width: 100%;
     max-width: 260px;
@@ -36,6 +36,7 @@ export const Content = styled.div`
       flex-direction: column;
       align-items: flex-start;
       font-weight: bold;
+      color: #444;
 
       input {
         align-self: stretch;
@@ -49,6 +50,15 @@ export const Content = styled.div`
         &::placeholder {
           color: #999;
         }
+      }
+
+      span {
+        color: #ff1188;
+        align-self: flex-end;
+        margin-top: 8px;
+        padding-right: 2px;
+        font-weight: bold;
+        position: absolute;
       }
     }
 
