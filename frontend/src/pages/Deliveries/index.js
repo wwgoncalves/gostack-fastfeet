@@ -39,7 +39,7 @@ export default function Deliveries() {
     setModalContent(null);
   }
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   function loadData() {
     console.log(`loadData() should be implemented`);
 

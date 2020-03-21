@@ -72,6 +72,6 @@ export const Action = styled.button`
   }
 
   &:hover {
-    background-color: ${() => darken(0.05, '#fff')};
+    background-color: ${darken(0.05, '#fff')};
   }
 `;
