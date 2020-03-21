@@ -1,5 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 
+import 'react-toastify/dist/ReactToastify.css';
+
 export default createGlobalStyle`
   * {
     margin: 0;
@@ -36,4 +38,14 @@ export default createGlobalStyle`
   button {
     cursor: pointer;
   }
+
+  .Toastify__toast {
+    font: 16px 'Roboto', sans-serif;
+    border-radius: 4px;
+ }
+  .Toastify__toast--error {
+    background-color: #ff1188;
+    font-weight: bold;
+    color: #fff;
+ }
 `;
