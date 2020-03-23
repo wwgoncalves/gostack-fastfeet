@@ -41,9 +41,16 @@ export default function DataTable({ header, dataArray }) {
 
 DataTable.propTypes = {
   header: PropTypes.arrayOf(PropTypes.string).isRequired,
-  dataArray: PropTypes.arrayOf(
+  dataArray: PropTypes.oneOfType([
     PropTypes.arrayOf(
-      PropTypes.oneOfType([PropTypes.string, PropTypes.element, PropTypes.func])
-    )
-  ).isRequired,
+      PropTypes.arrayOf(
+        PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.element,
+          PropTypes.func,
+        ])
+      )
+    ),
+    PropTypes.array,
+  ]).isRequired,
 };

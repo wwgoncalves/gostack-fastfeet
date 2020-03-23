@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { MdVisibility, MdCreate, MdDeleteForever } from 'react-icons/md';
+import { useLocation, useHistory } from 'react-router-dom';
+
+import api from '~/services/api';
 
 import { Container, ModalContent } from './styles';
 
@@ -11,7 +14,13 @@ import ContextMenu from '~/components/ContextMenu';
 import PaginationBar from '~/components/PaginationBar';
 import LoadingIndicator from '~/components/LoadingIndicator';
 import Modal from '~/components/Modal';
-import AvatarPlaceholder from '~/components/AvatarPlaceholder';
+import Avatar from '~/components/Avatar';
+
+// A custom hook that builds on useLocation to parse
+// the query string for you.
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 
 export default function Deliveries() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -38,36 +47,6 @@ export default function Deliveries() {
     setModalVisible(false);
     setModalContent(null);
   }
-
-  const [loading, setLoading] = useState(true);
-  function loadData() {
-    console.log(`loadData() should be implemented`);
-
-    setLoading(true);
-    setTimeout(() => setLoading(false), 200);
-  }
-
-  const [paginationInfo, setPaginationInfo] = useState({
-    current: 1,
-    size: 25,
-    last: 927,
-  });
-  function onPageChange(page) {
-    console.log(`onPageChange() should be implemented - ${page}`);
-
-    setPaginationInfo({ ...paginationInfo, current: page });
-    loadData();
-  }
-  function onPageSizeChange(size) {
-    console.log(`onPageSizeChange() should be implemented - ${size}`);
-
-    setPaginationInfo({ ...paginationInfo, size });
-    loadData();
-  }
-
-  useEffect(() => {
-    loadData();
-  }, []);
 
   const tableHeader = [
     'ID',
@@ -98,52 +77,129 @@ export default function Deliveries() {
       fn: remove,
     },
   ];
-  const dataArray = [
-    [
-      '#01',
-      'Ludwig van Beethoven',
-      <AvatarPlaceholder size={35} name="John Doe">
-        John Doe
-      </AvatarPlaceholder>,
-      'Rio do Sul',
-      'Santa Catarina',
-      <StatusTag code={2} />,
-      <ContextMenu menuActions={menuActions} contextId={1} />,
-    ],
-    [
-      '#02',
-      'Wolfgang Amadeus',
-      <AvatarPlaceholder size={35} name="Gaspar Antunes">
-        Gaspar Antunes
-      </AvatarPlaceholder>,
-      'Rio do Sul',
-      'Santa Catarina',
-      <StatusTag code={0} />,
-      <ContextMenu menuActions={menuActions} contextId={2} />,
-    ],
-    [
-      '#03',
-      'Johann Sebastian Bach',
-      <AvatarPlaceholder size={35} name="Dai Jiang">
-        Dai Jiang
-      </AvatarPlaceholder>,
-      'Rio do Sul',
-      'Santa Catarina',
-      <StatusTag code={1} />,
-      <ContextMenu menuActions={menuActions} contextId={3} />,
-    ],
-    [
-      '#04',
-      'Frédéric Chopin',
-      <AvatarPlaceholder size={35} name="Tom Hanson">
-        Tom Hanson
-      </AvatarPlaceholder>,
-      'Rio do Sul',
-      'Santa Catarina',
-      <StatusTag code={9} />,
-      <ContextMenu menuActions={menuActions} contextId={4} />,
-    ],
-  ];
+
+  const query = useQuery();
+  const history = useHistory();
+  console.log(query.toString());
+  console.log(query.set('limit', 20));
+  console.log(query.toString());
+  console.log(query.get('page'));
+  console.log(query.get('limit'));
+  console.log(query.get('q'));
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [deliveries, setDeliveries] = useState([]);
+  const [paginationInfo, setPaginationInfo] = useState({});
+
+  // const [paginationInfo, setPaginationInfo] = useState({
+  //   current: 1,
+  //   size: 25,
+  //   last: 927,
+  // });
+  function onPageChange(page) {
+    console.log(`onPageChange() should be revised - ${page}`);
+
+    // setPaginationInfo({ ...paginationInfo, current: page });
+    setCurrentPage(page);
+    // history.push({
+    //   pathname:'/deliveries',
+
+    // })
+    // loadData();
+  }
+  function onPageSizeChange(size) {
+    console.log(`onPageSizeChange() should be revised - ${size}`);
+
+    // setPaginationInfo({ ...paginationInfo, size });
+    setPageSize(size);
+    setCurrentPage(1);
+    // loadData();
+  }
+
+  useEffect(() => {
+    async function loadData() {
+      setLoading(true);
+      const response = await api.get('deliveries', {
+        params: {
+          page: currentPage,
+          limit: pageSize,
+          q: searchQuery,
+        },
+      });
+
+      const data = response.data.rows.map(row => [
+        row.id,
+        row.recipient.name,
+        <Avatar
+          url={row.deliveryman.avatar && row.deliveryman.avatar.url}
+          size={35}
+          name={row.deliveryman.name}
+        >
+          {row.deliveryman.name}
+        </Avatar>,
+        row.recipient.city,
+        row.recipient.state,
+        <StatusTag code={row.status} />,
+        <ContextMenu menuActions={menuActions} contextId={row.id} />,
+      ]);
+
+      setDeliveries(data);
+      setPaginationInfo(response.data.pagination);
+
+      console.log(`loadData() should be revised`);
+      setLoading(false);
+    }
+    loadData();
+  }, [currentPage, pageSize, searchQuery]);
+
+  // const dataArray = [
+  //   [
+  //     '#01',
+  //     'Ludwig van Beethoven',
+  //     <AvatarPlaceholder size={35} name="John Doe">
+  //       John Doe
+  //     </AvatarPlaceholder>,
+  //     'Rio do Sul',
+  //     'Santa Catarina',
+  //     <StatusTag code={2} />,
+  //     <ContextMenu menuActions={menuActions} contextId={1} />,
+  //   ],
+  //   [
+  //     '#02',
+  //     'Wolfgang Amadeus',
+  //     <AvatarPlaceholder size={35} name="Gaspar Antunes">
+  //       Gaspar Antunes
+  //     </AvatarPlaceholder>,
+  //     'Rio do Sul',
+  //     'Santa Catarina',
+  //     <StatusTag code={0} />,
+  //     <ContextMenu menuActions={menuActions} contextId={2} />,
+  //   ],
+  //   [
+  //     '#03',
+  //     'Johann Sebastian Bach',
+  //     <AvatarPlaceholder size={35} name="Dai Jiang">
+  //       Dai Jiang
+  //     </AvatarPlaceholder>,
+  //     'Rio do Sul',
+  //     'Santa Catarina',
+  //     <StatusTag code={1} />,
+  //     <ContextMenu menuActions={menuActions} contextId={3} />,
+  //   ],
+  //   [
+  //     '#04',
+  //     'Frédéric Chopin',
+  //     <AvatarPlaceholder size={35} name="Tom Hanson">
+  //       Tom Hanson
+  //     </AvatarPlaceholder>,
+  //     'Rio do Sul',
+  //     'Santa Catarina',
+  //     <StatusTag code={9} />,
+  //     <ContextMenu menuActions={menuActions} contextId={4} />,
+  //   ],
+  // ];
 
   return (
     <>
@@ -157,7 +213,7 @@ export default function Deliveries() {
               <SearchInput placeholder="Buscar por encomendas" />
               <Button icon="MdAdd" text="Cadastrar" />
             </div>
-            <DataTable header={tableHeader} dataArray={dataArray} />
+            <DataTable header={tableHeader} dataArray={deliveries} />
             <PaginationBar
               info={paginationInfo}
               onPageChange={onPageChange}

@@ -14,7 +14,7 @@ export default function PaginationBar({
 
   return (
     <>
-      {info.last > 1 && (
+      {info.last >= 1 && (
         <Container>
           <PageSizes title="Itens por página">
             {pageSizes.map(size => {

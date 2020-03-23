@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { lighten } from 'polished';
+import { darken, lighten } from 'polished';
 
 export const AvatarCircle = styled.span`
   display: inline-block !important;
@@ -11,8 +11,8 @@ export const AvatarCircle = styled.span`
       width: ${props.size}px;
       line-height: ${props.size}px;
       font-size: ${Math.floor(props.size / 2 - 1)}px;
-      color: ${props.color};
-      background-color: ${lighten(0.25, props.color)};
+      color: ${darken(0.1, props.color)};
+      background-color: ${lighten(0.22, props.color)};
     `}
   border-radius: 50%;
 
