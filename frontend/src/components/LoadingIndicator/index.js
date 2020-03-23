@@ -13,6 +13,11 @@ export default function LoadingIndicator({ size, color }) {
 }
 
 LoadingIndicator.propTypes = {
-  size: PropTypes.number.isRequired,
-  color: PropTypes.string.isRequired,
+  size: PropTypes.number,
+  color: PropTypes.string,
+};
+
+LoadingIndicator.defaultProps = {
+  size: 80,
+  color: '#ddd',
 };

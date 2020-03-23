@@ -1,40 +1,52 @@
 import styled from 'styled-components';
-import { darken } from 'polished';
 
-export const Wrapper = styled.div`
-  height: 100%;
-  background-color: #7d40e7;
+export const Container = styled.div`
+  align-self: stretch;
+  flex-grow: 1;
+  /* margin: 0 10%; */
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
 
-  body:not(&) {
-    background-color: #7d40e7;
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 34px 0;
+
+    h1 {
+      font-size: 24px;
+      color: #444;
+    }
+
+    div {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0;
+
+      button {
+        & + button {
+          margin-left: 15px;
+        }
+      }
+    }
   }
 `;
 
 export const Content = styled.div`
-  width: 100%;
-  max-width: 360px;
+  display: flex;
   background-color: #fff;
   border-radius: 4px;
-  text-align: center;
-  padding: 30px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  img {
-    width: 100%;
-    max-width: 260px;
-    margin: 30px 0 40px;
-  }
+  padding: 40px 30px;
 
   form {
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
 
     label {
       display: flex;
       flex-direction: column;
-      align-items: flex-start;
       font-weight: bold;
       color: #444;
 
@@ -60,22 +72,6 @@ export const Content = styled.div`
         padding-right: 2px;
         font-weight: bold;
         position: absolute;
-      }
-    }
-
-    button {
-      height: 45px;
-      background-color: #7d40e7;
-      color: #fff;
-      font-size: 16px;
-      font-weight: bold;
-      border: 0;
-      border-radius: 4px;
-      margin: 0 0 30px;
-      transition: background 0.2s;
-
-      &:hover {
-        background-color: ${darken(0.05, '#7d40e7')};
       }
     }
   }

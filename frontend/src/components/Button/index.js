@@ -5,6 +5,7 @@ import * as Md from 'react-icons/md';
 import { Container } from './styles';
 
 export default function Button({
+  type,
   bgColor,
   color,
   icon,
@@ -14,11 +15,13 @@ export default function Button({
   disabled,
   title,
   active,
+  form,
 }) {
   const MdIcon = icon && Md[icon];
 
   return (
     <Container
+      type={type}
       bgColor={bgColor}
       color={color}
       onClick={onClick}
@@ -26,6 +29,7 @@ export default function Button({
       disabled={disabled}
       title={title}
       active={active}
+      form={form}
     >
       {icon && !iconOnTheRight && (
         <span>
@@ -43,6 +47,7 @@ export default function Button({
 }
 
 Button.propTypes = {
+  type: PropTypes.string,
   bgColor: PropTypes.string,
   color: PropTypes.string,
   icon: PropTypes.string,
@@ -52,9 +57,11 @@ Button.propTypes = {
   disabled: PropTypes.bool,
   title: PropTypes.string,
   active: PropTypes.bool,
+  form: PropTypes.string,
 };
 
 Button.defaultProps = {
+  type: 'button',
   bgColor: '#7d40e7',
   color: '#fff',
   icon: null,
@@ -64,4 +71,5 @@ Button.defaultProps = {
   disabled: false,
   title: null,
   active: false,
+  form: null,
 };

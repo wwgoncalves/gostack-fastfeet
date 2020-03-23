@@ -23,7 +23,14 @@ export function* signIn({ payload }) {
 
     history.push('/deliveries');
   } catch (error) {
-    toast.error('Falha na autenticação, verifique e-mail e senha.');
+    if (
+      error.message &&
+      String(error.message).toLowerCase() === 'network error'
+    ) {
+      toast.error('Falha na conexão, tente novamente em breve.');
+    } else {
+      toast.error('Falha na autenticação, verifique e-mail e senha.');
+    }
     yield put(signInFailure());
   }
 }

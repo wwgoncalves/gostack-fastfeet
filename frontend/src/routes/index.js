@@ -16,14 +16,26 @@ import Problems from '~/pages/Problems';
 export default function Routes() {
   return (
     <Switch>
-      <Route path="/" exact component={SignIn} />
+      <Route exact path="/" component={SignIn} />
 
-      <Route path="/deliveries" component={Deliveries} isPrivate />
-      <Route path="/delivery" component={Delivery} isPrivate />
-      <Route path="/deliverymen" component={Deliverymen} isPrivate />
-      <Route path="/deliveryman" component={Deliveryman} isPrivate />
-      <Route path="/recipients" component={Recipients} isPrivate />
-      <Route path="/recipient" component={Recipient} isPrivate />
+      <Route exact path="/deliveries" component={Deliveries} isPrivate />
+      <Route
+        path="/deliveries/delivery/:deliveryId?"
+        component={Delivery}
+        isPrivate
+      />
+      <Route exact path="/deliverymen" component={Deliverymen} isPrivate />
+      <Route
+        path="/deliverymen/deliveryman/:deliverymanId?"
+        component={Deliveryman}
+        isPrivate
+      />
+      <Route exact path="/recipients" component={Recipients} isPrivate />
+      <Route
+        path="/recipients/recipient/:recipientId?"
+        component={Recipient}
+        isPrivate
+      />
       <Route path="/problems" component={Problems} isPrivate />
     </Switch>
   );

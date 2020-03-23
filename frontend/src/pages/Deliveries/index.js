@@ -44,7 +44,7 @@ export default function Deliveries() {
     console.log(`loadData() should be implemented`);
 
     setLoading(true);
-    setTimeout(() => setLoading(false), 2000);
+    setTimeout(() => setLoading(false), 200);
   }
 
   const [paginationInfo, setPaginationInfo] = useState({
@@ -149,7 +149,7 @@ export default function Deliveries() {
     <>
       <Container>
         {loading ? (
-          <LoadingIndicator size={80} color="#ddd" />
+          <LoadingIndicator />
         ) : (
           <>
             <h1>Gerenciando encomendas</h1>

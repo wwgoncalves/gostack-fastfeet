@@ -8,7 +8,7 @@ class DeliverymanController {
   constructor() {
     this.schema = Yup.object().shape({
       name: Yup.string().required(),
-      avatar_id: Yup.number().required(),
+      avatar_id: Yup.number(),
       email: Yup.string().required(),
     });
 
@@ -33,7 +33,7 @@ class DeliverymanController {
         {
           model: File,
           as: 'avatar',
-          attributes: ['name', 'path', 'url'],
+          attributes: ['id', 'name', 'path', 'url'],
         },
       ],
     });
@@ -58,7 +58,7 @@ class DeliverymanController {
         {
           model: File,
           as: 'avatar',
-          attributes: ['name', 'path', 'url'],
+          attributes: ['id', 'name', 'path', 'url'],
         },
       ],
     });

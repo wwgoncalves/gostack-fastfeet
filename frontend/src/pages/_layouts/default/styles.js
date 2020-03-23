@@ -15,4 +15,5 @@ export const Content = styled.div`
   display: flex;
   width: 83%;
   margin: 0 auto;
+  flex-direction: column;
 `;

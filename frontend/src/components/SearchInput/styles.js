@@ -9,6 +9,7 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
   padding: 0 15px;
+  margin: 0 !important;
 
   span {
     height: 24px;

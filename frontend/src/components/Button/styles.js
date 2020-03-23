@@ -1,9 +1,7 @@
 import styled, { css } from 'styled-components';
 import { lighten, darken } from 'polished';
 
-export const Container = styled.button.attrs({
-  type: 'button',
-})`
+export const Container = styled.button`
   height: 36px;
   border: 0;
   border-radius: 4px;
