@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { MdVisibility, MdCreate, MdDeleteForever } from 'react-icons/md';
 import { useLocation, useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { parseISO, format } from 'date-fns';
 
 import api from '~/services/api';
+
+import maskFormat from '~/util/maskFormat';
 
 import { Container, ModalContent } from './styles';
 
@@ -23,31 +27,6 @@ function useQuery() {
 }
 
 export default function Deliveries() {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalContent, setModalContent] = useState(null);
-  function visualize(id) {
-    console.log(`visualize() should be implemented - ${id}`);
-
-    setModalVisible(true);
-    setModalContent(
-      <ModalContent onClick={e => e.stopPropagation()}>
-        <h2>Isto é apenas um teste</h2>
-        <div>um dois três</div>
-        <span>...ID: {id}...</span>
-      </ModalContent>
-    );
-  }
-  function edit(id) {
-    console.log(`edit() should be implemented - ${id}`);
-  }
-  function remove(id) {
-    console.log(`remove() should be implemented - ${id}`);
-  }
-  function handleModalClose() {
-    setModalVisible(false);
-    setModalContent(null);
-  }
-
   const tableHeader = [
     'ID',
     'Destinatário',
@@ -57,7 +36,104 @@ export default function Deliveries() {
     'Status',
     'Ações',
   ];
-  const menuActions = [
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalContent, setModalContent] = useState('');
+
+  const query = useQuery();
+  const queryString = query.toString();
+  const history = useHistory();
+
+  const [loading, setLoading] = useState(true);
+  const [queryParams, setQueryParams] = useState({
+    page: Number(query.get('page')) || 1,
+    limit: Number(query.get('limit')) || 10,
+    searchQuery: query.get('q') || '',
+  });
+  const [deliveries, setDeliveries] = useState([]);
+  const [paginationInfo, setPaginationInfo] = useState({});
+
+  async function visualize(id) {
+    console.log(`visualize() should be revised - ${id}`);
+
+    try {
+      const response = await api.get(`deliveries/${id}`);
+      const {
+        recipient,
+        start_date: startDate,
+        end_date: endDate,
+        signature,
+      } = response.data;
+
+      setModalContent(
+        <ModalContent onClick={e => e.stopPropagation()}>
+          <div>
+            <h4>Informações da encomenda</h4>
+            <span>
+              {`${recipient.street}, ${recipient.number}`}
+              {recipient.complement && `, ${recipient.complement}`}
+            </span>
+            <br />
+            <span>{`${recipient.city}, ${recipient.state}`}</span>
+            <br />
+            <span>{maskFormat('XXXXX-XXX', recipient.cep)}</span>
+          </div>
+          <hr />
+          <div>
+            <h4>Datas</h4>
+            <span>
+              <strong>Retirada:</strong>{' '}
+              {startDate
+                ? format(parseISO(startDate), 'dd/MM/yyyy')
+                : '__/__/__'}
+            </span>
+            <br />
+            <span>
+              <strong>Entrega:</strong>{' '}
+              {endDate ? format(parseISO(endDate), 'dd/MM/yyyy') : '__/__/__'}
+            </span>
+          </div>
+          <hr />
+          <div>
+            <h4>Assinatura do destinatário</h4>
+            <div>
+              {signature && (
+                <img src={signature.url} alt="Foto da assinatura" />
+              )}
+            </div>
+          </div>
+        </ModalContent>
+      );
+      setModalVisible(true);
+    } catch (error) {
+      toast.error('Erro ao consultar os dados encomenda, tente novamente.');
+    }
+  }
+
+  function edit(id) {
+    console.log(`edit() should be implemented - ${id}`);
+  }
+
+  async function remove(id) {
+    // eslint-disable-next-line no-alert
+    if (window.confirm(`Realmente deseja excluir a encomenda #${id}?`)) {
+      try {
+        await api.delete(`deliveries/${id}`);
+        toast.success('Encomenda removida com sucesso!');
+        // eslint-disable-next-line no-use-before-define
+        loadData();
+
+        // // or this (offline) fast refresh
+        // setDeliveries(prevState => [
+        //   ...prevState.filter(delivery => delivery[0] !== id),
+        // ]);
+      } catch (error) {
+        toast.error('Erro ao remover a encomenda, tente novamente.');
+      }
+    }
+  }
+
+  const [menuActions] = useState([
     {
       id: 1,
       icon: <MdVisibility size={16} color="#8E5BE8" />,
@@ -76,56 +152,39 @@ export default function Deliveries() {
       label: 'Excluir',
       fn: remove,
     },
-  ];
+  ]);
 
-  const query = useQuery();
-  const history = useHistory();
-  console.log(query.toString());
-  console.log(query.set('limit', 20));
-  console.log(query.toString());
-  console.log(query.get('page'));
-  console.log(query.get('limit'));
-  console.log(query.get('q'));
-  const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [deliveries, setDeliveries] = useState([]);
-  const [paginationInfo, setPaginationInfo] = useState({});
+  function handleModalClose() {
+    setModalVisible(false);
+    setModalContent(null);
+  }
 
-  // const [paginationInfo, setPaginationInfo] = useState({
-  //   current: 1,
-  //   size: 25,
-  //   last: 927,
-  // });
   function onPageChange(page) {
-    console.log(`onPageChange() should be revised - ${page}`);
-
-    // setPaginationInfo({ ...paginationInfo, current: page });
-    setCurrentPage(page);
-    // history.push({
-    //   pathname:'/deliveries',
-
-    // })
-    // loadData();
+    setQueryParams({ ...queryParams, page });
+    query.set('page', page);
+    history.push({
+      pathname: '/deliveries',
+      search: `?${query.toString()}`,
+    });
   }
   function onPageSizeChange(size) {
-    console.log(`onPageSizeChange() should be revised - ${size}`);
-
-    // setPaginationInfo({ ...paginationInfo, size });
-    setPageSize(size);
-    setCurrentPage(1);
-    // loadData();
+    setQueryParams({ ...queryParams, page: 1, limit: size });
+    query.set('page', 1);
+    query.set('limit', size);
+    history.push({
+      pathname: '/deliveries',
+      search: `?${query.toString()}`,
+    });
   }
 
-  useEffect(() => {
-    async function loadData() {
-      setLoading(true);
+  const loadData = useCallback(async () => {
+    setLoading(true);
+    try {
       const response = await api.get('deliveries', {
         params: {
-          page: currentPage,
-          limit: pageSize,
-          q: searchQuery,
+          page: queryParams.page,
+          limit: queryParams.limit,
+          q: queryParams.searchQuery,
         },
       });
 
@@ -147,72 +206,40 @@ export default function Deliveries() {
 
       setDeliveries(data);
       setPaginationInfo(response.data.pagination);
-
-      console.log(`loadData() should be revised`);
-      setLoading(false);
+    } catch (error) {
+      toast.error(
+        'Um erro ocorreu ao carregar os dados, tente novamente em breve.'
+      );
     }
-    loadData();
-  }, [currentPage, pageSize, searchQuery]);
 
-  // const dataArray = [
-  //   [
-  //     '#01',
-  //     'Ludwig van Beethoven',
-  //     <AvatarPlaceholder size={35} name="John Doe">
-  //       John Doe
-  //     </AvatarPlaceholder>,
-  //     'Rio do Sul',
-  //     'Santa Catarina',
-  //     <StatusTag code={2} />,
-  //     <ContextMenu menuActions={menuActions} contextId={1} />,
-  //   ],
-  //   [
-  //     '#02',
-  //     'Wolfgang Amadeus',
-  //     <AvatarPlaceholder size={35} name="Gaspar Antunes">
-  //       Gaspar Antunes
-  //     </AvatarPlaceholder>,
-  //     'Rio do Sul',
-  //     'Santa Catarina',
-  //     <StatusTag code={0} />,
-  //     <ContextMenu menuActions={menuActions} contextId={2} />,
-  //   ],
-  //   [
-  //     '#03',
-  //     'Johann Sebastian Bach',
-  //     <AvatarPlaceholder size={35} name="Dai Jiang">
-  //       Dai Jiang
-  //     </AvatarPlaceholder>,
-  //     'Rio do Sul',
-  //     'Santa Catarina',
-  //     <StatusTag code={1} />,
-  //     <ContextMenu menuActions={menuActions} contextId={3} />,
-  //   ],
-  //   [
-  //     '#04',
-  //     'Frédéric Chopin',
-  //     <AvatarPlaceholder size={35} name="Tom Hanson">
-  //       Tom Hanson
-  //     </AvatarPlaceholder>,
-  //     'Rio do Sul',
-  //     'Santa Catarina',
-  //     <StatusTag code={9} />,
-  //     <ContextMenu menuActions={menuActions} contextId={4} />,
-  //   ],
-  // ];
+    setLoading(false);
+  }, [queryParams, menuActions]);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
+
+  useEffect(() => {
+    setQueryParams({
+      page: Number(query.get('page')) || 1,
+      limit: Number(query.get('limit')) || 10,
+      searchQuery: query.get('q') || '',
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [queryString]);
 
   return (
     <>
       <Container>
+        <h1>Gerenciando encomendas</h1>
+        <div>
+          <SearchInput placeholder="Buscar por encomendas" />
+          <Button icon="MdAdd" text="Cadastrar" />
+        </div>
         {loading ? (
           <LoadingIndicator />
         ) : (
           <>
-            <h1>Gerenciando encomendas</h1>
-            <div>
-              <SearchInput placeholder="Buscar por encomendas" />
-              <Button icon="MdAdd" text="Cadastrar" />
-            </div>
             <DataTable header={tableHeader} dataArray={deliveries} />
             <PaginationBar
               info={paginationInfo}

@@ -6,7 +6,7 @@ export const Container = styled.div`
 
   svg {
     position: absolute;
-    top: calc(40vh - ${props => props.size}px / 2);
+    top: calc(25vh - ${props => props.size}px / 2);
     left: calc(50% - ${props => props.size}px / 2);
     animation-name: spin;
     animation-duration: 1s;

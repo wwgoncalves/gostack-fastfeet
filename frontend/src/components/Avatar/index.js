@@ -10,7 +10,7 @@ export default function Avatar({ url, size, name, children }) {
     <>
       {url ? (
         <Circle size={size}>
-          <img src={url} alt="Avatar do entregador" />
+          <img src={url} alt="Avatar" />
         </Circle>
       ) : (
         <AvatarPlaceholder size={size} name={name} />
