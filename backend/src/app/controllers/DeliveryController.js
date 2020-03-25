@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import { parseISO, getHours, format } from 'date-fns';
-import { Op } from 'sequelize';
+import { Op, literal, cast } from 'sequelize';
 
 import Delivery from '../models/Delivery';
 import Recipient from '../models/Recipient';
@@ -38,13 +38,18 @@ class DeliveryController {
   }
 
   async index(request, response) {
-    const { page = 1, limit = process.env.PAGE_LIMIT, q = '' } = request.query;
+    const {
+      page = 1,
+      limit = process.env.PAGE_LIMIT,
+      q: queryString = '',
+      filter = 'none',
+    } = request.query;
     const offset = (page - 1) * limit;
 
-    const deliveries = await Delivery.findAndCountAll({
+    const findAndCountAllOptions = {
       where: {
         product: {
-          [Op.iLike]: `%${q}%`,
+          [Op.iLike]: `%${queryString}%`,
         },
       },
       limit,
@@ -74,7 +79,28 @@ class DeliveryController {
           attributes: ['name', 'path', 'url'],
         },
       ],
-    });
+      attributes: {
+        include: [
+          [
+            cast(
+              literal(
+                '(SELECT COUNT(*) FROM "delivery_problems" WHERE "delivery_problems"."delivery_id" = "Delivery"."id")'
+              ),
+              'integer'
+            ),
+            'problems',
+          ],
+        ],
+      },
+    };
+
+    if (filter === 'problems') {
+      findAndCountAllOptions.where.id = {
+        [Op.in]: literal('(SELECT delivery_id FROM delivery_problems)'),
+      };
+    }
+
+    const deliveries = await Delivery.findAndCountAll(findAndCountAllOptions);
 
     const { rows, count } = deliveries;
 
@@ -124,6 +150,19 @@ class DeliveryController {
           attributes: ['name', 'path', 'url'],
         },
       ],
+      attributes: {
+        include: [
+          [
+            cast(
+              literal(
+                '(SELECT COUNT(*) FROM "delivery_problems" WHERE "delivery_problems"."delivery_id" = "Delivery"."id")'
+              ),
+              'integer'
+            ),
+            'problems',
+          ],
+        ],
+      },
     });
 
     if (!delivery) {

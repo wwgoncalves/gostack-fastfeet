@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { MdVisibility, MdCreate, MdDeleteForever } from 'react-icons/md';
 import { useLocation, useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -8,7 +9,12 @@ import api from '~/services/api';
 
 import maskFormat from '~/util/maskFormat';
 
-import { Container, ModalContent } from './styles';
+import {
+  Container,
+  SearchAndFilter,
+  ModalContent,
+  NoContentMessage,
+} from './styles';
 
 import SearchInput from '~/components/SearchInput';
 import Button from '~/components/Button';
@@ -49,7 +55,10 @@ export default function Deliveries() {
     page: Number(query.get('page')) || 1,
     limit: Number(query.get('limit')) || 10,
     searchQuery: query.get('q') || '',
+    filter: query.get('filter') || '',
   });
+  let searchInputTimer = null;
+  const searchInputRef = useRef(null);
   const [deliveries, setDeliveries] = useState([]);
   const [paginationInfo, setPaginationInfo] = useState({});
 
@@ -76,7 +85,7 @@ export default function Deliveries() {
             <br />
             <span>{`${recipient.city}, ${recipient.state}`}</span>
             <br />
-            <span>{maskFormat('XXXXX-XXX', recipient.cep)}</span>
+            <span>{maskFormat(recipient.cep, 'XXXXX-XXX')}</span>
           </div>
           <hr />
           <div>
@@ -159,6 +168,39 @@ export default function Deliveries() {
     setModalContent(null);
   }
 
+  function handleSearchInputChange() {
+    clearTimeout(searchInputTimer);
+    searchInputTimer = setTimeout(() => {
+      setLoading(true);
+      const searchQuery = searchInputRef.current.value;
+      setQueryParams({ ...queryParams, page: 1, searchQuery });
+      query.set('page', 1);
+      query.set('q', searchQuery);
+      history.push({
+        pathname: '/deliveries',
+        search: `?${query.toString()}`,
+      });
+      setLoading(false);
+    }, 700);
+  }
+
+  function handleFilterProblemsChange() {
+    let { filter } = queryParams;
+
+    if (filter === 'problems') {
+      filter = '';
+    } else {
+      filter = 'problems';
+    }
+    setQueryParams({ ...queryParams, page: 1, filter });
+    query.set('page', 1);
+    query.set('filter', filter);
+    history.push({
+      pathname: '/deliveries',
+      search: `?${query.toString()}`,
+    });
+  }
+
   function onPageChange(page) {
     setQueryParams({ ...queryParams, page });
     query.set('page', page);
@@ -185,11 +227,12 @@ export default function Deliveries() {
           page: queryParams.page,
           limit: queryParams.limit,
           q: queryParams.searchQuery,
+          filter: queryParams.filter,
         },
       });
 
       const data = response.data.rows.map(row => [
-        row.id,
+        <span title={row.product}>{row.id}</span>,
         row.recipient.name,
         <Avatar
           url={row.deliveryman.avatar && row.deliveryman.avatar.url}
@@ -206,6 +249,7 @@ export default function Deliveries() {
 
       setDeliveries(data);
       setPaginationInfo(response.data.pagination);
+      searchInputRef.current.defaultValue = queryParams.searchQuery;
     } catch (error) {
       toast.error(
         'Um erro ocorreu ao carregar os dados, tente novamente em breve.'
@@ -224,6 +268,7 @@ export default function Deliveries() {
       page: Number(query.get('page')) || 1,
       limit: Number(query.get('limit')) || 10,
       searchQuery: query.get('q') || '',
+      filter: query.get('filter') || '',
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [queryString]);
@@ -233,19 +278,40 @@ export default function Deliveries() {
       <Container>
         <h1>Gerenciando encomendas</h1>
         <div>
-          <SearchInput placeholder="Buscar por encomendas" />
+          <SearchAndFilter>
+            <SearchInput
+              ref={searchInputRef}
+              placeholder="Buscar por encomendas"
+              onChange={handleSearchInputChange}
+            />
+            <input
+              type="checkbox"
+              id="problems"
+              checked={queryParams.filter === 'problems'}
+              onChange={handleFilterProblemsChange}
+            />
+            <label htmlFor="problems">Apenas com problemas</label>
+          </SearchAndFilter>
           <Button icon="MdAdd" text="Cadastrar" />
         </div>
         {loading ? (
           <LoadingIndicator />
         ) : (
           <>
-            <DataTable header={tableHeader} dataArray={deliveries} />
-            <PaginationBar
-              info={paginationInfo}
-              onPageChange={onPageChange}
-              onPageSizeChange={onPageSizeChange}
-            />
+            {deliveries.length === 0 ? (
+              <NoContentMessage>
+                <em>Não há encomendas para exibir.</em>
+              </NoContentMessage>
+            ) : (
+              <>
+                <DataTable header={tableHeader} dataArray={deliveries} />
+                <PaginationBar
+                  info={paginationInfo}
+                  onPageChange={onPageChange}
+                  onPageSizeChange={onPageSizeChange}
+                />
+              </>
+            )}
           </>
         )}
       </Container>

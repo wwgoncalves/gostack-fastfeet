@@ -20,19 +20,19 @@ export default function Routes() {
 
       <Route exact path="/deliveries" component={Deliveries} isPrivate />
       <Route
-        path="/deliveries/delivery/:deliveryId?"
+        path={['/deliveries/new', '/deliveries/:deliveryId']}
         component={Delivery}
         isPrivate
       />
       <Route exact path="/deliverymen" component={Deliverymen} isPrivate />
       <Route
-        path="/deliverymen/deliveryman/:deliverymanId?"
+        path={['/deliverymen/new', '/deliverymen/:deliverymanId']}
         component={Deliveryman}
         isPrivate
       />
       <Route exact path="/recipients" component={Recipients} isPrivate />
       <Route
-        path="/recipients/recipient/:recipientId?"
+        path={['/recipients/new', '/recipients/:recipientId']}
         component={Recipient}
         isPrivate
       />

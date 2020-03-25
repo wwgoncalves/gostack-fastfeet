@@ -20,6 +20,44 @@ export const Container = styled.div`
   }
 `;
 
+export const SearchAndFilter = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 0 !important;
+
+  input[type='checkbox'] {
+    margin-left: 20px;
+    transform: scale(1.3);
+  }
+
+  label {
+    height: 36px;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    padding-left: 10px;
+    padding-right: 20px;
+    color: #999;
+  }
+  #problems:checked ~ label[for='problems'] {
+    color: #7d40e7;
+  }
+`;
+
+export const NoContentMessage = styled.div`
+  width: 100%;
+  height: 57px;
+  background-color: #fff;
+  border-radius: 4px;
+  color: #666;
+  font-size: 16px;
+  font-weight: normal;
+  display: flex;
+  align-items: center;
+  justify-content: center !important;
+`;
+
 export const ModalContent = styled.div`
   width: 450px;
   height: 360px;
@@ -47,19 +85,30 @@ export const ModalContent = styled.div`
     }
 
     div {
-      width: 405px;
+      width: 400px;
       height: 75px;
+      display: flex;
       overflow: auto;
+
+      img {
+        margin: auto;
+      }
+
       &::-webkit-scrollbar {
-        width: 5px;
-        height: 5px;
-        background-color: rgba(125, 64, 231, 0.5);
+        width: 2px;
+        height: 2px;
+        background-color: #eee;
         border-radius: 4px;
       }
+
       &::-webkit-scrollbar-thumb {
-        background-color: #999;
+        background-color: #7d40e7;
         border-radius: 4px;
-        border: 1px solid #666;
+      }
+
+      &:hover::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
       }
     }
   }
