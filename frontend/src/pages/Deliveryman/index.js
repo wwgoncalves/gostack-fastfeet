@@ -47,11 +47,24 @@ export default function Deliveryman({ match }) {
 
   useEffect(() => {
     async function loadDeliveryman(id) {
+      let hasErrors = false;
       setLoading(true);
-      const response = await api.get(`deliverymen/${id}`);
 
-      setProfile(response.data);
+      try {
+        const response = await api.get(`deliverymen/${id}`);
+
+        setProfile(response.data);
+      } catch (error) {
+        toast.error(
+          'Falha ao consultar dados do entregador. Verifique se o identificador é válido e tente novamente em breve.'
+        );
+        hasErrors = true;
+      }
+
       setLoading(false);
+      if (hasErrors) {
+        history.push('/deliverymen');
+      }
     }
 
     if (deliverymanId) {

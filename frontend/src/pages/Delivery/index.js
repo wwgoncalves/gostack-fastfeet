@@ -94,11 +94,24 @@ export default function Delivery({ match }) {
 
   useEffect(() => {
     async function loadDelivery(id) {
+      let hasErrors = false;
       setLoading(true);
-      const response = await api.get(`deliveries/${id}`);
 
-      setDelivery(response.data);
+      try {
+        const response = await api.get(`deliveries/${id}`);
+
+        setDelivery(response.data);
+      } catch (error) {
+        toast.error(
+          'Falha ao consultar dados da encomenda. Verifique se o identificador é válido e tente novamente em breve.'
+        );
+        hasErrors = true;
+      }
+
       setLoading(false);
+      if (hasErrors) {
+        history.push('/deliveries');
+      }
     }
 
     if (deliveryId) {
