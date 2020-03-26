@@ -14,9 +14,9 @@ import Button from '~/components/Button';
 import LoadingIndicator from '~/components/LoadingIndicator';
 
 const schema = Yup.object().shape({
-  recipient_id: Yup.number().required('Destinatário obrigatório.'),
-  deliveryman_id: Yup.number().required('Entregador obrigatório.'),
-  product: Yup.string().required('Descrição do produto obrigatória.'),
+  recipient_id: Yup.number().required('Destinatário obrigatório'),
+  deliveryman_id: Yup.number().required('Entregador obrigatório'),
+  product: Yup.string().required('Descrição do produto obrigatória'),
 });
 
 export default function Delivery({ match }) {

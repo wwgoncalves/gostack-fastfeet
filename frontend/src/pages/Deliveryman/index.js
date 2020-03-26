@@ -16,10 +16,10 @@ import LoadingIndicator from '~/components/LoadingIndicator';
 
 const schema = Yup.object().shape({
   avatar_id: Yup.number(),
-  name: Yup.string().required('Nome obrigatório.'),
+  name: Yup.string().required('Nome obrigatório'),
   email: Yup.string()
-    .email('E-mail inválido.')
-    .required('E-mail obrigatório.'),
+    .email('E-mail inválido')
+    .required('E-mail obrigatório'),
 });
 
 export default function Deliveryman({ match }) {

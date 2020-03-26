@@ -1,6 +1,8 @@
 /* eslint-disable no-plusplus */
 export default function(value, mask) {
-  const valueString = String(value);
+  const maskSeparators = mask.replace('X', '').split('');
+  const separatorsRegExp = new RegExp(`[\\${maskSeparators.join('\\')}]`, 'g');
+  const valueString = String(value).replace(separatorsRegExp, '');
   let result = '';
   for (
     let maskIndex = 0, stringIndex = 0;

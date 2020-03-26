@@ -44,6 +44,18 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
 
+    div > label {
+      flex: 1;
+
+      & + label {
+        margin-left: 15px;
+      }
+    }
+
+    div > label[for='street'] {
+      flex: 4;
+    }
+
     label {
       display: flex;
       flex-direction: column;
@@ -63,6 +75,18 @@ export const Content = styled.div`
         &::placeholder {
           color: #999;
         }
+      }
+
+      /* Chrome, Safari, Edge, Opera */
+      input[type='number']::-webkit-inner-spin-button,
+      input[type='number']::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      /* Firefox */
+      input[type='number'] {
+        -moz-appearance: textfield;
       }
 
       span {

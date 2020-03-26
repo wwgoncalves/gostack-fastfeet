@@ -10,17 +10,22 @@ import { Container, Content } from './styles';
 import api from '~/services/api';
 import history from '~/services/history';
 
+import maskFormat from '~/util/maskFormat';
+
 import Button from '~/components/Button';
 import LoadingIndicator from '~/components/LoadingIndicator';
 
 const schema = Yup.object().shape({
-  name: Yup.string().required('Nome obrigatório.'),
-  street: Yup.string().required('Logradouro obrigatório.'),
-  number: Yup.number().required('Número obrigatório'),
+  name: Yup.string().required('Nome obrigatório'),
+  street: Yup.string().required('Logradouro obrigatório'),
+  number: Yup.number()
+    .typeError('Número obrigatório')
+    .positive('Número deve ser válido')
+    .required('Número obrigatório'),
   complement: Yup.string().nullable(true),
-  city: Yup.string().required('Nome da cidade obrigatória.'),
-  state: Yup.string().required('Nome do estado obrigatório.'),
-  cep: Yup.string().required('CEP obrigatório.'),
+  city: Yup.string().required('Nome da cidade obrigatória'),
+  state: Yup.string().required('Nome do estado obrigatório'),
+  cep: Yup.string().required('CEP obrigatório'),
 });
 
 export default function Recipient({ match }) {
@@ -95,7 +100,14 @@ export default function Recipient({ match }) {
             <Form
               id="form"
               schema={schema}
-              initialData={profile}
+              initialData={
+                profile.cep
+                  ? {
+                      ...profile,
+                      cep: maskFormat(profile.cep, 'XXXXX-XXX'),
+                    }
+                  : profile
+              }
               onSubmit={handleSubmit}
             >
               <label htmlFor="name">
@@ -107,60 +119,71 @@ export default function Recipient({ match }) {
                   placeholder="João da Silva"
                 />
               </label>
-              <label htmlFor="street">
-                Logradouro
-                <Input
-                  name="street"
-                  id="street"
-                  type="text"
-                  placeholder="Rua Caminho das Videiras"
-                />
-              </label>
-              <label htmlFor="number">
-                Número
-                <Input
-                  name="number"
-                  id="number"
-                  type="number"
-                  placeholder="1592"
-                />
-              </label>
-              <label htmlFor="complement">
-                Complemento
-                <Input
-                  name="complement"
-                  id="complement"
-                  type="text"
-                  placeholder="Bloco 5, Apto 71"
-                />
-              </label>
-              <label htmlFor="city">
-                Cidade
-                <Input
-                  name="city"
-                  id="city"
-                  type="text"
-                  placeholder="Ronda Alta"
-                />
-              </label>
-              <label htmlFor="state">
-                Estado
-                <Input
-                  name="state"
-                  id="state"
-                  type="text"
-                  placeholder="Espírito Santo"
-                />
-              </label>
-              <label htmlFor="cep">
-                CEP
-                <Input
-                  name="cep"
-                  id="cep"
-                  type="text"
-                  placeholder="95923-610"
-                />
-              </label>
+              <div>
+                <label htmlFor="street">
+                  Logradouro
+                  <Input
+                    name="street"
+                    id="street"
+                    type="text"
+                    placeholder="Rua Caminho das Videiras"
+                  />
+                </label>
+                <label htmlFor="number">
+                  Número
+                  <Input
+                    name="number"
+                    id="number"
+                    type="number"
+                    placeholder="1592"
+                  />
+                </label>
+                <label htmlFor="complement">
+                  Complemento
+                  <Input
+                    name="complement"
+                    id="complement"
+                    type="text"
+                    // placeholder="Bloco 5, Apto 71"
+                  />
+                </label>
+              </div>
+              <div>
+                <label htmlFor="city">
+                  Cidade
+                  <Input
+                    name="city"
+                    id="city"
+                    type="text"
+                    placeholder="Ronda Alta"
+                  />
+                </label>
+                <label htmlFor="state">
+                  Estado
+                  <Input
+                    name="state"
+                    id="state"
+                    type="text"
+                    placeholder="Espírito Santo"
+                  />
+                </label>
+                <label htmlFor="cep">
+                  CEP
+                  <Input
+                    name="cep"
+                    id="cep"
+                    type="text"
+                    placeholder="95923-610"
+                    onChange={event => {
+                      const valueMasked = maskFormat(
+                        event.target.value,
+                        'XXXXX-XXX'
+                      );
+                      event.target.value = valueMasked;
+                    }}
+                  />
+                </label>
+              </div>
             </Form>
           </Content>
         </>
