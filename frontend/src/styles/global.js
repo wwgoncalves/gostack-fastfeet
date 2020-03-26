@@ -40,10 +40,11 @@ export default createGlobalStyle`
   }
 
   .Toastify__toast {
+    font: 15px 'Roboto', sans-serif;
     border-radius: 4px;
  }
   .Toastify__toast--error {
-    background-color: #ff1188;
+    background-color: #ff0033;
     font-weight: bold;
     color: #fff;
  }
