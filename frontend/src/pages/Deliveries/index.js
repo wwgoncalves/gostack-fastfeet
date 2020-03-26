@@ -185,7 +185,7 @@ export default function Deliveries() {
         search: `?${query.toString()}`,
       });
       setLoading(false);
-    }, 700);
+    }, 800);
   }
 
   function handleFilterProblemsChange() {
@@ -253,7 +253,7 @@ export default function Deliveries() {
 
       setDeliveries(data);
       setPaginationInfo(response.data.pagination);
-      searchInputRef.current.defaultValue = queryParams.searchQuery;
+      searchInputRef.current.value = queryParams.searchQuery;
     } catch (error) {
       toast.error(
         'Um erro ocorreu ao carregar os dados, tente novamente em breve.'
