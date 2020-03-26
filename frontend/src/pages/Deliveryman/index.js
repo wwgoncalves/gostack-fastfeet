@@ -104,7 +104,7 @@ export default function Deliveryman({ match }) {
                 />
               </label>
             </Form>
-          </Content>{' '}
+          </Content>
         </>
       )}
     </Container>

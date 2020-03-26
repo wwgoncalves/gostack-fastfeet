@@ -63,8 +63,6 @@ export default function Deliveries() {
   const [paginationInfo, setPaginationInfo] = useState({});
 
   async function visualize(id) {
-    console.log(`visualize() should be revised - ${id}`);
-
     try {
       const response = await api.get(`deliveries/${id}`);
       const {
@@ -92,14 +90,20 @@ export default function Deliveries() {
             <h4>Datas</h4>
             <span>
               <strong>Retirada:</strong>{' '}
-              {startDate
-                ? format(parseISO(startDate), 'dd/MM/yyyy')
-                : '__/__/__'}
+              {startDate ? (
+                format(parseISO(startDate), 'dd/MM/yyyy')
+              ) : (
+                <em>não registrada</em>
+              )}
             </span>
             <br />
             <span>
               <strong>Entrega:</strong>{' '}
-              {endDate ? format(parseISO(endDate), 'dd/MM/yyyy') : '__/__/__'}
+              {endDate ? (
+                format(parseISO(endDate), 'dd/MM/yyyy')
+              ) : (
+                <em>não registrada</em>
+              )}
             </span>
           </div>
           <hr />
@@ -120,7 +124,7 @@ export default function Deliveries() {
   }
 
   function edit(id) {
-    console.log(`edit() should be implemented - ${id}`);
+    history.push(`/deliveries/${id}`);
   }
 
   async function remove(id) {
@@ -132,7 +136,7 @@ export default function Deliveries() {
         // eslint-disable-next-line no-use-before-define
         loadData();
 
-        // // or this (offline) fast refresh
+        // // faster alternative: this (offline) list refresh
         // setDeliveries(prevState => [
         //   ...prevState.filter(delivery => delivery[0] !== id),
         // ]);
@@ -292,7 +296,11 @@ export default function Deliveries() {
             />
             <label htmlFor="problems">Apenas com problemas</label>
           </SearchAndFilter>
-          <Button icon="MdAdd" text="Cadastrar" />
+          <Button
+            icon="MdAdd"
+            text="Cadastrar"
+            onClick={() => history.push('/deliveries/new')}
+          />
         </div>
         {loading ? (
           <LoadingIndicator />
@@ -300,7 +308,9 @@ export default function Deliveries() {
           <>
             {deliveries.length === 0 ? (
               <NoContentMessage>
-                <em>Não há encomendas para exibir.</em>
+                <em>
+                  Não há encomendas para exibir, verifique os filtros aplicados.
+                </em>
               </NoContentMessage>
             ) : (
               <>
