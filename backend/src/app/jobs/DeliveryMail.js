@@ -11,7 +11,7 @@ class DeliveryMail {
 
     return Mail.sendMail({
       to: `${deliveryman.name} <${deliveryman.email}>`,
-      subject: `Delivery #${delivery.id} has been assigned to you`,
+      subject: `Entrega #${delivery.id} foi atribuída a você`,
       template: 'delivery',
       context: {
         deliverymanName: deliveryman.name,

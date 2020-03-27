@@ -11,7 +11,7 @@ class CancellationMail {
 
     return Mail.sendMail({
       to: `${deliveryman.name} <${deliveryman.email}>`,
-      subject: `Delivery #${delivery.id} has been canceled`,
+      subject: `Entrega #${delivery.id} foi cancelada`,
       template: 'cancellation',
       context: {
         deliverymanName: deliveryman.name,

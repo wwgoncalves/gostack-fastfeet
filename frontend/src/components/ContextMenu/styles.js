@@ -62,8 +62,10 @@ export const Action = styled.button`
   padding: 8px 0;
   display: flex;
   align-items: center;
+  text-align: left;
 
   svg {
+    min-width: 16px;
     margin-right: 8px;
   }
 
