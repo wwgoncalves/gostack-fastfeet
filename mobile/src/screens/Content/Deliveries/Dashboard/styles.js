@@ -19,6 +19,8 @@ export const DeliveryHeader = styled.View`
   flex-direction: row;
   align-items: center;
   margin-left: 5px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
 `;
 export const HeadingIcon = styled(Icon).attrs({
   name: 'local-shipping',
@@ -37,17 +39,26 @@ export const StatusContainer = styled.View`
 `;
 
 export const DeliveryFooter = styled.View`
-  border-top-width: 1px;
-  border-top-color: #f8f9fd;
+  background-color: #f8f9fd;
   flex-direction: row;
   justify-content: space-between;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
 `;
 export const RegistrationDate = styled.View`
+  flex: 1;
+
   padding: 20px 0px;
   padding-left: 15px;
+  border-bottom-left-radius: 4px;
+  justify-content: flex-end;
 `;
 export const RecipientCity = styled.View`
+  flex: 1;
+
   padding: 20px 0px;
+  padding-left: 20px;
+  justify-content: flex-end;
 `;
 export const Label = styled.Text`
   font-size: 8px;
@@ -60,10 +71,12 @@ export const Value = styled.Text`
   color: #444;
 `;
 export const GoToDetailsButton = styled(RectButton)`
-  justify-content: flex-end;
-  background-color: #fff;
-  border-radius: 4px;
+  flex: 1;
+
   padding: 20px 15px;
+  border-radius: 4px;
+  justify-content: flex-end;
+  align-items: center;
 `;
 
 export const GoToDetailsText = styled.Text`

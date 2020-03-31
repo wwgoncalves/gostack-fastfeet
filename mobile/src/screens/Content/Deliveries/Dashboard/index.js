@@ -91,7 +91,7 @@ export default function Dashboard({ navigation }) {
           </RegistrationDate>
           <RecipientCity>
             <Label>Cidade</Label>
-            <Value>Porto Alegre</Value>
+            <Value>São Sebastião do Caí</Value>
           </RecipientCity>
           <GoToDetailsButton onPress={() => {}}>
             <GoToDetailsText>Ver detalhes</GoToDetailsText>
