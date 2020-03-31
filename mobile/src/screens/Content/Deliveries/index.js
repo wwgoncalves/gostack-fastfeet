@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStackNavigator, TransitionSpecs } from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import Dashboard from './Dashboard';
@@ -16,7 +16,7 @@ export default function DeliveriesStackNavigator() {
       headerMode="float"
       screenOptions={{
         headerStyle: {
-          height: 32,
+          height: 40,
           borderBottomWidth: 0,
           elevation: 0,
           backgroundColor: '#7d40e7',
@@ -26,8 +26,9 @@ export default function DeliveriesStackNavigator() {
           fontSize: 16,
         },
         headerTitleAlign: 'center',
+        // eslint-disable-next-line react/prop-types
         headerBackImage: ({ tintColor }) => (
-          <Icon name="chevron-left" size={22} color={tintColor} />
+          <Icon name="chevron-left" size={24} color={tintColor} />
         ),
         headerBackTitleVisible: false,
       }}

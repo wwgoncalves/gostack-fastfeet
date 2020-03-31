@@ -20,6 +20,7 @@ export default function ContentTabNavigator() {
         name="Entregas"
         component={DeliveriesStackNavigator}
         options={{
+          // eslint-disable-next-line react/prop-types
           tabBarIcon: ({ color, size }) => (
             <Icon name="reorder" size={size} color={color} />
           ),
@@ -29,6 +30,7 @@ export default function ContentTabNavigator() {
         name="Meu Perfil"
         component={Profile}
         options={{
+          // eslint-disable-next-line react/prop-types
           tabBarIcon: ({ color, size }) => (
             <Icon name="account-circle" size={size} color={color} />
           ),
