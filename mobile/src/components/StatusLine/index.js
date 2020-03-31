@@ -8,6 +8,7 @@ export default function StatusLine({ statusCode }) {
   const color = '#7d40e7';
   const backgroundColor = '#fff';
   const labelTextColor = '#999';
+  const labelFont = `9px "sans-serif"`;
 
   return (
     <Container bgColor={backgroundColor}>
@@ -22,10 +23,10 @@ export default function StatusLine({ statusCode }) {
           strokeWidth={1}
           fill={color}
         />
-        <Text font={`9px "sans-serif"`} fill={labelTextColor} x={1} y={15}>
+        <Text font={labelFont} fill={labelTextColor} x={1} y={15}>
           Aguardando
         </Text>
-        <Text font={`9px "sans-serif"`} fill={labelTextColor} x={10} y={27}>
+        <Text font={labelFont} fill={labelTextColor} x={10} y={27}>
           Retirada
         </Text>
         <Shape
@@ -43,7 +44,7 @@ export default function StatusLine({ statusCode }) {
           strokeWidth={1}
           fill={statusCode === 1 || statusCode === 2 ? color : backgroundColor}
         />
-        <Text font={`9px "sans-serif"`} fill={labelTextColor} x={128} y={20}>
+        <Text font={labelFont} fill={labelTextColor} x={128} y={20}>
           Retirada
         </Text>
         <Shape
@@ -61,7 +62,7 @@ export default function StatusLine({ statusCode }) {
           strokeWidth={1}
           fill={statusCode === 2 ? color : backgroundColor}
         />
-        <Text font={`9px "sans-serif"`} fill={labelTextColor} x={245} y={20}>
+        <Text font={labelFont} fill={labelTextColor} x={245} y={20}>
           Entregue
         </Text>
       </Surface>
