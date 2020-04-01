@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useCallback } from 'react';
+import React, { useRef } from 'react';
 import { RNCamera } from 'react-native-camera';
 
 import {
@@ -60,9 +60,6 @@ export default function Camera() {
           )
         }
       </RNCamera>
-      {/* <CameraButton onPress={takePicture}>
-        <CameraIcon />
-      </CameraButton> */}
     </CameraContainer>
   );
 }
