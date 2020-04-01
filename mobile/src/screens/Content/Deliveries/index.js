@@ -13,6 +13,7 @@ const Stack = createStackNavigator();
 export default function DeliveriesStackNavigator() {
   return (
     <Stack.Navigator
+      initialRouteName="Dashboard" // <<<<<<<<<<<<<<<<<<============================ for testing !!!!!!
       headerMode="float"
       screenOptions={{
         headerStyle: {

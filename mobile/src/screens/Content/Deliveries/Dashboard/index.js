@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Text, Alert } from 'react-native';
+import { Alert } from 'react-native';
 
 import {
   Container,
@@ -30,7 +30,6 @@ import {
   RecipientCity,
   GoToDetailsButton,
   GoToDetailsText,
-  DistanceToScrollEnd,
 } from './styles';
 
 import AvatarPlaceholder from '~/components/AvatarPlaceholder';
@@ -146,8 +145,6 @@ export default function Dashboard({ navigation }) {
             </GoToDetailsButton>
           </DeliveryFooter>
         </DeliveryContainer>
-
-        <DistanceToScrollEnd />
       </ListContainer>
     </Container>
   );

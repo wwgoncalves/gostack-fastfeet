@@ -3,6 +3,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { RectButton } from 'react-native-gesture-handler';
 
 export const Container = styled.View`
+  flex: 1;
   background-color: #fff;
   padding: 20px;
 `;
@@ -159,9 +160,4 @@ export const GoToDetailsText = styled.Text`
   font-size: 12px;
   font-weight: bold;
   color: #7d40e7;
-`;
-
-export const DistanceToScrollEnd = styled.View`
-  margin-top: 50px;
-  margin-bottom: 100px;
 `;
