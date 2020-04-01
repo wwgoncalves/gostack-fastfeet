@@ -1,15 +1,18 @@
-import React, { useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { RNCamera } from 'react-native-camera';
 
 import {
   CameraContainer,
   CameraButton,
-  CameraIcon,
+  TakePhotoIcon,
   ActivityIndicator,
+  CancelIcon,
 } from './styles';
 
 export default function Camera() {
   const cameraRef = useRef(null);
+  const [captured, setCaptured] = useState(false);
+  const [photoData, setPhotoData] = useState(null);
 
   const androidCameraPermissionOptions = {
     title: 'Permissão para usar a câmera',
@@ -17,6 +20,13 @@ export default function Camera() {
     buttonPositive: 'Permitir',
     buttonNegative: 'Negar',
   };
+
+  function resumePreview() {
+    setCaptured(false);
+    setPhotoData(null);
+
+    cameraRef.current.resumePreview();
+  }
 
   async function takePicture() {
     if (cameraRef) {
@@ -28,6 +38,8 @@ export default function Camera() {
       try {
         const data = await cameraRef.current.takePictureAsync(options);
         console.tron.log(data.uri);
+        setCaptured(true);
+        setPhotoData(data);
       } catch (error) {
         console.tron.log(error);
       }
@@ -54,8 +66,10 @@ export default function Camera() {
           status !== 'READY' ? (
             <ActivityIndicator />
           ) : (
-            <CameraButton onPress={takePicture}>
-              <CameraIcon />
+            <CameraButton
+              onPress={() => (captured ? resumePreview() : takePicture())}
+            >
+              {captured ? <CancelIcon /> : <TakePhotoIcon />}
             </CameraButton>
           )
         }

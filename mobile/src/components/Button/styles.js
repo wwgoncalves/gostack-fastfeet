@@ -8,10 +8,14 @@ export const Container = styled(RectButton)`
   justify-content: center;
   align-items: center;
   background-color: ${(props) => props.backgroundColor};
+
+  opacity: ${(props) => (props.disabled ? 0.5 : 1)};
 `;
 
 export const Text = styled.Text`
   font-size: 16px;
   font-weight: bold;
   color: ${(props) => props.textColor};
+
+  opacity: ${(props) => (props.disabled ? 0.5 : 1)};
 `;

@@ -18,7 +18,7 @@ export const CameraButton = styled(RectButton)`
   height: 60px;
   width: 60px;
   background-color: #000;
-  opacity: 0.5;
+  opacity: 0.6;
   border-radius: 30px;
   align-items: center;
   justify-content: center;
@@ -26,7 +26,7 @@ export const CameraButton = styled(RectButton)`
   margin-bottom: 20px;
 `;
 
-export const CameraIcon = styled(Icon).attrs({
+export const TakePhotoIcon = styled(Icon).attrs({
   name: 'photo-camera',
   size: 30,
   color: '#fff',
@@ -38,3 +38,9 @@ export const ActivityIndicator = styled.ActivityIndicator.attrs({
 })`
   margin-bottom: 20px;
 `;
+
+export const CancelIcon = styled(Icon).attrs({
+  name: 'clear',
+  size: 30,
+  color: '#f55',
+})``;

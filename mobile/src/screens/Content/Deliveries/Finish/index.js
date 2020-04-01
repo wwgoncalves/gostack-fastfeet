@@ -10,7 +10,7 @@ export default function Finish() {
     <Container>
       {/* <Text>Finish the delivery</Text> */}
       <Camera />
-      <Button>Enviar</Button>
+      <Button disabled>Enviar</Button>
     </Container>
   );
 }
