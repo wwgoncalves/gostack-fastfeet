@@ -17,5 +17,5 @@ export const Text = styled.Text`
   font-weight: bold;
   color: ${(props) => props.textColor};
 
-  opacity: ${(props) => (props.disabled ? 0.5 : 1)};
+  opacity: ${(props) => (props.disabled ? 0.3 : 1)};
 `;
