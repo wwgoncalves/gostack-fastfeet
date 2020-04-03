@@ -10,6 +10,8 @@ module.exports = {
     timestamps: true,
     underscored: true,
     underscoredAll: true,
+    createdAt: 'created_at', // current bug in Sequelize demands this
+    updatedAt: 'updated_at', // current bug in Sequelize demands this
   },
   logging: false,
 };
