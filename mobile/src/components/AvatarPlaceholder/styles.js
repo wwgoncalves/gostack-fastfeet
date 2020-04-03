@@ -12,6 +12,6 @@ export const AvatarCircle = styled.Text`
       font-size: ${Math.floor(props.size / 2 - 1)}px;
       color: ${darken(0.1, props.color)};
       background-color: ${lighten(0.22, props.color)};
+      border-radius: ${Math.floor(props.size / 2)}px;
     `}
-  border-radius: ${(props) => Math.floor(props.size / 2)}px;
 `;

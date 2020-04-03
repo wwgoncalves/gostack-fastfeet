@@ -18,6 +18,8 @@ const upload = multer(multerConfig);
 
 routes.post('/sessions', SessionController.store);
 
+routes.get('/deliverymen/:id', DeliverymanController.show);
+
 routes.get('/deliverymen/:id/deliveries', AssignmentController.index);
 routes.get(
   '/deliverymen/:id/deliveries/:delivery_id',
@@ -54,7 +56,6 @@ routes.delete('/recipients/:id', RecipientController.delete);
 
 routes.get('/deliverymen', DeliverymanController.index);
 routes.post('/deliverymen', DeliverymanController.store);
-routes.get('/deliverymen/:id', DeliverymanController.show);
 routes.put('/deliverymen/:id', DeliverymanController.update);
 routes.delete('/deliverymen/:id', DeliverymanController.delete);
 

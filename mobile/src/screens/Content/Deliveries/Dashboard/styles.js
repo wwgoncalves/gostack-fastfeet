@@ -23,6 +23,7 @@ export const LeftTop = styled.View`
   align-items: center;
 `;
 export const MiddleTop = styled.View`
+  flex: 1;
   margin-left: 10px;
 `;
 export const WelcomeBack = styled.Text`

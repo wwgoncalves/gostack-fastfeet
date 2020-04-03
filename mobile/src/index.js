@@ -2,17 +2,22 @@ import 'react-native-gesture-handler';
 import '~/config/ReactotronConfig';
 
 import React from 'react';
-import { StatusBar } from 'react-native';
+import { PersistGate } from 'redux-persist/integration/react';
+import { Provider } from 'react-redux';
 
 import { NavigationContainer } from '@react-navigation/native';
 
+import { store, persistor } from './store';
 import Routes from './routes';
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <StatusBar barStyle="light-content" backgroundColor="#7D40E7" animated />
-      <Routes />
-    </NavigationContainer>
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <NavigationContainer>
+          <Routes />
+        </NavigationContainer>
+      </PersistGate>
+    </Provider>
   );
 }

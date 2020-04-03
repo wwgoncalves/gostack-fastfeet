@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import { StatusBar, Platform } from 'react-native';
 
 import { Container, CameraContainer } from './styles';
 
@@ -8,6 +10,7 @@ import Button from '~/components/Button';
 export default function Finish() {
   const [isPhotoTaken, setIsPhotoTaken] = useState(false);
   const [photoData, setPhotoData] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   function handlePhotoTaken(data) {
     setIsPhotoTaken(true);
@@ -21,8 +24,21 @@ export default function Finish() {
   }
 
   function submitPhoto() {
+    setLoading(true);
+
     // photoData ...
+
+    setLoading(false);
   }
+
+  useFocusEffect(
+    useCallback(() => {
+      StatusBar.setBarStyle('light-content');
+      if (Platform.OS === 'android') {
+        StatusBar.setBackgroundColor('#7d40e7');
+      }
+    }, [])
+  );
 
   return (
     <Container>
@@ -30,7 +46,7 @@ export default function Finish() {
         {/* <Text>Finish the delivery</Text> */}
         <Camera onTake={handlePhotoTaken} onDiscard={handlePhotoDiscarded} />
       </CameraContainer>
-      <Button disabled={!isPhotoTaken} onPress={submitPhoto}>
+      <Button loading={loading} disabled={!isPhotoTaken} onPress={submitPhoto}>
         Enviar
       </Button>
     </Container>
