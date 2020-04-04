@@ -1,8 +1,10 @@
-import React, { useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
 import { StatusBar, Platform, Alert } from 'react-native';
+
+import api from '~/services/api';
 
 import { signOut } from '~/store/modules/user/actions';
 
@@ -22,34 +24,28 @@ import {
   FilterButton,
   FilterText,
   ListContainer,
-  DeliveryContainer,
-  DeliveryHeader,
-  HeadingIcon,
-  HeadingText,
-  StatusContainer,
-  DeliveryFooter,
-  RegistrationDate,
-  Label,
-  Value,
-  RecipientCity,
-  GoToDetailsButton,
-  GoToDetailsText,
+  NoContentMessage,
+  LoadingIndicator,
+  CustomRefreshControl,
 } from './styles';
 
 import Avatar from '~/components/Avatar';
 import AvatarPlaceholder from '~/components/AvatarPlaceholder';
-import StatusLine from '~/components/StatusLine';
+import Delivery from '~/components/Delivery';
 
 export default function Dashboard({ navigation }) {
   const dispatch = useDispatch();
   const profile = useSelector((state) => state.user.profile);
 
-  function logoutConfirmation() {
-    Alert.alert('Logout do app', 'Deseja realmente se deslogar?', [
-      { text: 'Não', style: 'cancel' },
-      { text: 'Sim', onPress: () => dispatch(signOut()) },
-    ]);
-  }
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+  const [queryParams, setQueryParams] = useState({
+    page: 1,
+    limit: 5,
+    status: 'pending',
+  });
+  const [deliveries, setDeliveries] = useState([]);
+  const [paginationInfo, setPaginationInfo] = useState({});
 
   useFocusEffect(
     useCallback(() => {
@@ -60,9 +56,73 @@ export default function Dashboard({ navigation }) {
     }, [])
   );
 
+  function logoutConfirmation() {
+    Alert.alert('Logout do app', 'Deseja realmente se deslogar?', [
+      { text: 'Não', style: 'cancel' },
+      { text: 'Sim', onPress: () => dispatch(signOut()) },
+    ]);
+  }
+
+  function filterByStatus(status) {
+    setLoading(true);
+
+    setDeliveries([]);
+    setQueryParams({
+      ...queryParams,
+      page: 1,
+      status,
+    });
+  }
+
+  function handleListEndReached() {
+    if (paginationInfo.last > queryParams.page) {
+      setLoading(true);
+      setQueryParams({ ...queryParams, page: queryParams.page + 1 });
+    }
+  }
+
+  function handleRefreshList() {
+    setLoading(true);
+    setRefreshing(true);
+    setDeliveries([]);
+    setQueryParams({
+      ...queryParams,
+      page: 1,
+    });
+  }
+
+  useEffect(() => {
+    async function loadData() {
+      if (!profile) return;
+
+      setLoading(true);
+      try {
+        const response = await api.get(`deliverymen/${profile.id}/deliveries`, {
+          params: {
+            page: queryParams.page,
+            limit: queryParams.limit,
+            status: queryParams.status,
+          },
+        });
+
+        setDeliveries((prevDeliveries) =>
+          prevDeliveries.length > 0
+            ? [...prevDeliveries, ...response.data.rows]
+            : response.data.rows
+        );
+        setPaginationInfo(response.data.pagination);
+      } catch (error) {
+        Alert.alert('Erro ao carregar dados', 'Tente novamente em breve.');
+      }
+      setLoading(false);
+      setRefreshing(false);
+    }
+
+    loadData();
+  }, [profile, queryParams]);
+
   return (
     <Container>
-      {/* <Text>App dashboard listing pending or finished deliveries</Text> */}
       {profile && (
         <>
           <Header>
@@ -85,88 +145,44 @@ export default function Dashboard({ navigation }) {
             <Bottom>
               <Title>Entregas</Title>
               <RightBottom>
-                <FilterButton onPress={() => {}}>
-                  <FilterText active>Pendentes</FilterText>
+                <FilterButton onPress={() => filterByStatus('pending')}>
+                  <FilterText active={queryParams.status === 'pending'}>
+                    Pendentes
+                  </FilterText>
                 </FilterButton>
-                <FilterButton onPress={() => {}}>
-                  <FilterText>Entregues</FilterText>
+
+                <FilterButton onPress={() => filterByStatus('finished')}>
+                  <FilterText active={queryParams.status === 'finished'}>
+                    Entregues
+                  </FilterText>
                 </FilterButton>
               </RightBottom>
             </Bottom>
           </Header>
 
-          <ListContainer>
-            <DeliveryContainer>
-              <DeliveryHeader>
-                <HeadingIcon />
-                <HeadingText>Encomenda 01</HeadingText>
-              </DeliveryHeader>
-              <StatusContainer>
-                <StatusLine statusCode={0} />
-              </StatusContainer>
-              <DeliveryFooter>
-                <RegistrationDate>
-                  <Label>Data</Label>
-                  <Value>14/01/2020</Value>
-                </RegistrationDate>
-                <RecipientCity>
-                  <Label>Cidade</Label>
-                  <Value>Diadema</Value>
-                </RecipientCity>
-                <GoToDetailsButton
-                  onPress={() => navigation.navigate('Details')}
-                >
-                  <GoToDetailsText>Ver detalhes</GoToDetailsText>
-                </GoToDetailsButton>
-              </DeliveryFooter>
-            </DeliveryContainer>
-
-            <DeliveryContainer>
-              <DeliveryHeader>
-                <HeadingIcon />
-                <HeadingText>Encomenda 02</HeadingText>
-              </DeliveryHeader>
-              <StatusContainer>
-                <StatusLine statusCode={1} />
-              </StatusContainer>
-              <DeliveryFooter>
-                <RegistrationDate>
-                  <Label>Data</Label>
-                  <Value>15/01/2020</Value>
-                </RegistrationDate>
-                <RecipientCity>
-                  <Label>Cidade</Label>
-                  <Value>Rio do Sul</Value>
-                </RecipientCity>
-                <GoToDetailsButton onPress={() => {}}>
-                  <GoToDetailsText>Ver detalhes</GoToDetailsText>
-                </GoToDetailsButton>
-              </DeliveryFooter>
-            </DeliveryContainer>
-
-            <DeliveryContainer>
-              <DeliveryHeader>
-                <HeadingIcon />
-                <HeadingText>Encomenda 03</HeadingText>
-              </DeliveryHeader>
-              <StatusContainer>
-                <StatusLine statusCode={2} />
-              </StatusContainer>
-              <DeliveryFooter>
-                <RegistrationDate>
-                  <Label>Data</Label>
-                  <Value>30/01/2020</Value>
-                </RegistrationDate>
-                <RecipientCity>
-                  <Label>Cidade</Label>
-                  <Value>São Sebastião do Caí</Value>
-                </RecipientCity>
-                <GoToDetailsButton onPress={() => {}}>
-                  <GoToDetailsText>Ver detalhes</GoToDetailsText>
-                </GoToDetailsButton>
-              </DeliveryFooter>
-            </DeliveryContainer>
-          </ListContainer>
+          {loading && <LoadingIndicator />}
+          {deliveries.length > 0 ? (
+            <ListContainer
+              data={deliveries}
+              renderItem={({ item }) => (
+                <Delivery delivery={item} navigation={navigation} />
+              )}
+              keyExtractor={(item) => String(item.id)}
+              onEndReachedThreshold={0.5}
+              onEndReached={handleListEndReached}
+              refreshControl={
+                <CustomRefreshControl
+                  onRefresh={handleRefreshList}
+                  refreshing={refreshing}
+                />
+              }
+            />
+          ) : (
+            !loading &&
+            !refreshing && (
+              <NoContentMessage>Não há entregas para mostrar.</NoContentMessage>
+            )
+          )}
         </>
       )}
     </Container>

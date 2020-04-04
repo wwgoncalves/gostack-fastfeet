@@ -4,7 +4,7 @@ import { View, Text, Button, StatusBar, Platform } from 'react-native';
 
 // import { Container } from './styles';
 
-export default function Details({ navigation }) {
+export default function Details({ route, navigation }) {
   useFocusEffect(
     useCallback(() => {
       StatusBar.setBarStyle('light-content');
@@ -13,6 +13,9 @@ export default function Details({ navigation }) {
       }
     }, [])
   );
+
+  // testing
+  console.tron.log('Entrega: ', route.params.delivery);
 
   return (
     <View>

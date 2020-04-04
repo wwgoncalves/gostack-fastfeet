@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
-import { StatusBar, Platform } from 'react-native';
+import { Keyboard, StatusBar, Platform } from 'react-native';
 
 import { Container, Logo, Form, Input } from './styles';
 
@@ -14,6 +14,7 @@ export default function SignIn() {
   const loading = useSelector((state) => state.user.loading);
 
   function handleSubmit() {
+    Keyboard.dismiss();
     dispatch(signInRequest(deliverymanId));
   }
 
