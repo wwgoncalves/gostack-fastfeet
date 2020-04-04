@@ -102,11 +102,15 @@ export const LoadingIndicator = styled.ActivityIndicator.attrs({
   color: '#7d40e7',
 })`
   align-self: center;
-  margin-top: 30px;
 
-  position: absolute;
-  bottom: 270px;
-  z-index: 999;
+  ${(props) =>
+    props.absolutePositioning
+      ? css`
+          position: absolute;
+          bottom: 270px;
+          z-index: 999;
+        `
+      : ''}
 `;
 
 export const CustomRefreshControl = styled.RefreshControl.attrs({

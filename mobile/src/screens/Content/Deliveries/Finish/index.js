@@ -4,13 +4,13 @@ import { StatusBar, Platform } from 'react-native';
 
 import { Container, CameraContainer } from './styles';
 
-import Camera from './Camera';
+import Camera from '~/components/Camera';
 import Button from '~/components/Button';
 
 export default function Finish() {
   const [isPhotoTaken, setIsPhotoTaken] = useState(false);
   const [photoData, setPhotoData] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [sending, setSending] = useState(false);
 
   function handlePhotoTaken(data) {
     setIsPhotoTaken(true);
@@ -24,11 +24,11 @@ export default function Finish() {
   }
 
   function submitPhoto() {
-    setLoading(true);
+    setSending(true);
 
     // photoData ...
 
-    setLoading(false);
+    setSending(false);
   }
 
   useFocusEffect(
@@ -46,7 +46,7 @@ export default function Finish() {
         {/* <Text>Finish the delivery</Text> */}
         <Camera onTake={handlePhotoTaken} onDiscard={handlePhotoDiscarded} />
       </CameraContainer>
-      <Button loading={loading} disabled={!isPhotoTaken} onPress={submitPhoto}>
+      <Button loading={sending} disabled={!isPhotoTaken} onPress={submitPhoto}>
         Enviar
       </Button>
     </Container>

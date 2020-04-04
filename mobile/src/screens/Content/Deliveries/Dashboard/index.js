@@ -38,6 +38,7 @@ export default function Dashboard({ navigation }) {
   const profile = useSelector((state) => state.user.profile);
 
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [queryParams, setQueryParams] = useState({
     page: 1,
@@ -76,7 +77,7 @@ export default function Dashboard({ navigation }) {
 
   function handleListEndReached() {
     if (paginationInfo.last > queryParams.page) {
-      setLoading(true);
+      setLoadingMore(true);
       setQueryParams({ ...queryParams, page: queryParams.page + 1 });
     }
   }
@@ -115,6 +116,7 @@ export default function Dashboard({ navigation }) {
         Alert.alert('Erro ao carregar dados', 'Tente novamente em breve.');
       }
       setLoading(false);
+      setLoadingMore(false);
       setRefreshing(false);
     }
 
@@ -160,7 +162,7 @@ export default function Dashboard({ navigation }) {
             </Bottom>
           </Header>
 
-          {loading && <LoadingIndicator />}
+          {loading && !loadingMore && <LoadingIndicator absolutePositioning />}
           {deliveries.length > 0 ? (
             <ListContainer
               data={deliveries}
@@ -176,6 +178,7 @@ export default function Dashboard({ navigation }) {
                   refreshing={refreshing}
                 />
               }
+              ListFooterComponent={loadingMore && <LoadingIndicator />}
             />
           ) : (
             !loading &&
