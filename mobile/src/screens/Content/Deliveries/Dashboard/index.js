@@ -170,7 +170,7 @@ export default function Dashboard({ navigation }) {
                 <Delivery delivery={item} navigation={navigation} />
               )}
               keyExtractor={(item) => String(item.id)}
-              onEndReachedThreshold={0.5}
+              onEndReachedThreshold={2}
               onEndReached={handleListEndReached}
               refreshControl={
                 <CustomRefreshControl
