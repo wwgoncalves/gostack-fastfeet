@@ -24,9 +24,12 @@ export default function Finish() {
   }
 
   function submitPhoto() {
+    if (!isPhotoTaken) return;
+
     setSending(true);
 
     // photoData ...
+    console.tron.log('enviando foto...');
 
     setSending(false);
   }
