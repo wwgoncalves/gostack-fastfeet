@@ -90,30 +90,10 @@ export const ListContainer = styled.FlatList.attrs({
 `;
 
 export const NoContentMessage = styled.Text`
-  margin-top: 30px;
+  margin-top: 70px;
   align-self: center;
   font-size: 12px;
-  font-weight: bold;
-  color: #444;
+  font-weight: normal;
+  font-style: italic;
+  color: #666;
 `;
-
-export const LoadingIndicator = styled.ActivityIndicator.attrs({
-  size: 'small',
-  color: '#7d40e7',
-})`
-  align-self: center;
-
-  ${(props) =>
-    props.absolutePositioning
-      ? css`
-          position: absolute;
-          bottom: 270px;
-          z-index: 999;
-        `
-      : ''}
-`;
-
-export const CustomRefreshControl = styled.RefreshControl.attrs({
-  colors: ['#7d40e7'],
-  tintColor: '#7159c1',
-})``;

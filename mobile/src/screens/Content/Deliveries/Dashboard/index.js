@@ -25,13 +25,13 @@ import {
   FilterText,
   ListContainer,
   NoContentMessage,
-  LoadingIndicator,
-  CustomRefreshControl,
 } from './styles';
 
 import Avatar from '~/components/Avatar';
 import AvatarPlaceholder from '~/components/AvatarPlaceholder';
 import Delivery from '~/components/Delivery';
+import LoadingIndicator from '~/components/LoadingIndicator';
+import CustomRefreshControl from '~/components/CustomRefreshControl';
 
 export default function Dashboard({ navigation }) {
   const dispatch = useDispatch();
@@ -57,7 +57,7 @@ export default function Dashboard({ navigation }) {
     }, [])
   );
 
-  function logoutConfirmation() {
+  function confirmLogout() {
     Alert.alert('Logout do app', 'Deseja realmente se deslogar?', [
       { text: 'Não', style: 'cancel' },
       { text: 'Sim', onPress: () => dispatch(signOut()) },
@@ -82,7 +82,7 @@ export default function Dashboard({ navigation }) {
     }
   }
 
-  function handleRefreshList() {
+  function refreshList() {
     setLoading(true);
     setRefreshing(true);
     setDeliveries([]);
@@ -140,7 +140,7 @@ export default function Dashboard({ navigation }) {
                   <Username>{profile.name}</Username>
                 </MiddleTop>
               </LeftTop>
-              <LogoutButton onPress={logoutConfirmation}>
+              <LogoutButton onPress={confirmLogout}>
                 <LogoutIcon />
               </LogoutButton>
             </Top>
@@ -174,7 +174,7 @@ export default function Dashboard({ navigation }) {
               onEndReached={handleListEndReached}
               refreshControl={
                 <CustomRefreshControl
-                  onRefresh={handleRefreshList}
+                  onRefresh={refreshList}
                   refreshing={refreshing}
                 />
               }
@@ -183,7 +183,9 @@ export default function Dashboard({ navigation }) {
           ) : (
             !loading &&
             !refreshing && (
-              <NoContentMessage>Não há entregas para mostrar.</NoContentMessage>
+              <NoContentMessage>
+                Não há entregas para exibir nessa situação.
+              </NoContentMessage>
             )
           )}
         </>

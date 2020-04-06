@@ -39,7 +39,9 @@ export default function Delivery({ delivery, navigation }) {
           <Value>{delivery.recipient.city}</Value>
         </RecipientCity>
         <GoToDetailsButton
-          onPress={() => navigation.navigate('Details', { delivery })}
+          onPress={() =>
+            navigation.navigate('Details', { deliveryId: delivery.id })
+          }
         >
           <GoToDetailsText>Ver detalhes</GoToDetailsText>
         </GoToDetailsButton>

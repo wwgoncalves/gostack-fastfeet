@@ -16,7 +16,7 @@ export default function Profile() {
   const dispatch = useDispatch();
   const profile = useSelector((state) => state.user.profile);
 
-  function logoutConfirmation() {
+  function confirmLogout() {
     Alert.alert('Logout do app', 'Deseja realmente se deslogar?', [
       { text: 'Não', style: 'cancel' },
       { text: 'Sim', onPress: () => dispatch(signOut()) },
@@ -51,7 +51,7 @@ export default function Profile() {
             <Label>Data de cadastro</Label>
             <Value>{format(parseISO(profile.created_at), 'dd/MM/yyyy')}</Value>
           </Content>
-          <Button backgroundColor="#e74040" onPress={logoutConfirmation}>
+          <Button backgroundColor="#e74040" onPress={confirmLogout}>
             Logout
           </Button>
         </>

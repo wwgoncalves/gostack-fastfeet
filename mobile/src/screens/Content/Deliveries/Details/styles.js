@@ -115,6 +115,15 @@ export const ActionButton = styled(RectButton)`
 
   opacity: ${(props) => (props.disabled ? 0.3 : 1)};
 `;
+export const PickupIcon = styled(Icon).attrs({
+  name: 'archive',
+  size: 22,
+  color: '#40a740',
+})``;
+export const PickingUpIndicator = styled.ActivityIndicator.attrs({
+  size: 'small',
+  color: '#40a740',
+})``;
 export const ReportIcon = styled(Icon).attrs({
   name: 'highlight-off',
   size: 22,
