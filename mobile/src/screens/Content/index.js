@@ -14,6 +14,7 @@ export default function ContentTabNavigator() {
         activeTintColor: '#7d40e7',
         inactiveTintColor: '#999',
         tabStyle: { paddingVertical: 5 },
+        keyboardHidesTabBar: true,
       }}
     >
       <Tab.Screen

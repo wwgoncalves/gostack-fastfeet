@@ -80,7 +80,7 @@ export default function Details({ route, navigation }) {
   }, [delivery]);
 
   function navigateTo(screenName) {
-    navigation.navigate(screenName);
+    navigation.navigate(screenName, { deliveryId });
   }
 
   const loadData = useCallback(async () => {
