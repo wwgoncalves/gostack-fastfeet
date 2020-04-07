@@ -23,7 +23,7 @@ import {
   Title,
   FilterButton,
   FilterText,
-  ListContainer,
+  DeliveriesList,
   NoContentMessage,
 } from './styles';
 
@@ -164,7 +164,7 @@ export default function Dashboard({ navigation }) {
 
           {loading && !loadingMore && <LoadingIndicator absolutePositioning />}
           {deliveries.length > 0 ? (
-            <ListContainer
+            <DeliveriesList
               data={deliveries}
               renderItem={({ item }) => (
                 <Delivery delivery={item} navigation={navigation} />

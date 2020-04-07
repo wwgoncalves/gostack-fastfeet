@@ -20,7 +20,7 @@ export default function Report({ route, navigation }) {
     }, [])
   );
 
-  const [deliveryId] = useState(route.params.deliveryId);
+  const { deliveryId } = route.params;
   const [problemDescription, setProblemDescription] = useState('');
   const [sending, setSending] = useState(false);
 

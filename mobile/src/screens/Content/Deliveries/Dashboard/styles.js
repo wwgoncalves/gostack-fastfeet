@@ -82,7 +82,7 @@ export const FilterText = styled.Text`
         `};
 `;
 
-export const ListContainer = styled.FlatList.attrs({
+export const DeliveriesList = styled.FlatList.attrs({
   showsVerticalScrollIndicator: false,
 })`
   background-color: #fff;

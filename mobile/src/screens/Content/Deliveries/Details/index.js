@@ -127,7 +127,7 @@ export default function Details({ route, navigation }) {
   function confirmPickup() {
     Alert.alert(
       'Retirada da encomenda',
-      'Confirma a retirada para entrega da encomenda?',
+      'Confirma a retirada da encomenda para entrega?',
       [
         { text: 'Não', style: 'cancel' },
         { text: 'Sim', onPress: () => handlePickup() },
