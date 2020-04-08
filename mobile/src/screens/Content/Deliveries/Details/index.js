@@ -1,8 +1,14 @@
-import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import React, {
+  useRef,
+  useState,
+  useCallback,
+  useMemo,
+  useEffect,
+} from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
-import { StatusBar, Platform, Alert } from 'react-native';
+import { Alert } from 'react-native';
 import { format, parseISO } from 'date-fns';
 import Snackbar from 'react-native-snackbar';
 
@@ -36,56 +42,50 @@ import maskFormat from '~/util/maskFormat';
 
 import LoadingIndicator from '~/components/LoadingIndicator';
 import CustomRefreshControl from '~/components/CustomRefreshControl';
+import StatusBar from '~/components/StatusBar';
 
 export default function Details({ route, navigation }) {
-  useFocusEffect(
-    useCallback(() => {
-      StatusBar.setBarStyle('light-content');
-      if (Platform.OS === 'android') {
-        StatusBar.setBackgroundColor('#7d40e7');
-      }
-    }, [])
-  );
-
   const profile = useSelector((state) => state.user.profile);
 
   const [deliveryId] = useState(route.params.deliveryId);
   const [delivery, setDelivery] = useState(null);
-  const [loading, setLoading] = useState(true);
+
+  const [loading, setLoading] = useState(true); // State to guarantee UI updates
+  const isLoading = useRef(true); // Ref for the useFocusEffect below since setState is async
+  function setIsLoading(value) {
+    isLoading.current = value;
+    setLoading(value);
+  }
+
   const [refreshing, setRefreshing] = useState(false);
   const [pickingUp, setPickingUp] = useState(false);
 
-  const pickupPending = useMemo(() => delivery && delivery.status === 0, [
-    delivery,
-  ]);
-  const isDelivered = useMemo(() => delivery && delivery.status === 2, [
-    delivery,
-  ]);
-  const statusText = useMemo(
-    () => (delivery && delivery.status === 2 ? 'Entregue' : 'Pendente'),
-    [delivery]
-  );
-
-  const recipientAddress = useMemo(() => {
+  const {
+    pickupPending,
+    isDelivered,
+    statusText,
+    recipientAddress,
+  } = useMemo(() => {
     if (delivery) {
       const { recipient } = delivery;
       const { street, number, complement, city, state, cep } = recipient;
-      return [
-        street,
-        `${number}${complement ? `, ${complement}` : ''}`,
-        `${city} - ${state}`,
-        maskFormat(cep, 'XXXXX-XXX'),
-      ].join(', ');
+      return {
+        pickupPending: delivery.status === 0,
+        isDelivered: delivery.status === 2,
+        statusText: delivery.status === 2 ? 'Entregue' : 'Pendente',
+        recipientAddress: [
+          street,
+          `${number}${complement ? `, ${complement}` : ''}`,
+          `${city} - ${state}`,
+          maskFormat(cep, 'XXXXX-XXX'),
+        ].join(', '),
+      };
     }
-    return '';
+    return {};
   }, [delivery]);
 
-  function navigateTo(screenName) {
-    navigation.navigate(screenName, { deliveryId });
-  }
-
   const loadData = useCallback(async () => {
-    setLoading(true);
+    setIsLoading(true);
     try {
       const response = await api.get(
         `deliverymen/${profile.id}/deliveries/${deliveryId}`
@@ -95,18 +95,14 @@ export default function Details({ route, navigation }) {
     } catch (error) {
       Alert.alert('Erro ao carregar dados', 'Tente novamente em breve.');
     }
-    setLoading(false);
+    setIsLoading(false);
   }, [profile, deliveryId]);
 
-  async function refreshData() {
+  function refreshData() {
     setRefreshing(true);
     loadData();
     setRefreshing(false);
   }
-
-  useEffect(() => {
-    loadData();
-  }, [loadData]);
 
   async function handlePickup() {
     setPickingUp(true);
@@ -141,6 +137,24 @@ export default function Details({ route, navigation }) {
     );
   }
 
+  function navigateTo(screenName) {
+    navigation.navigate(screenName, { deliveryId });
+  }
+
+  useFocusEffect(
+    useCallback(() => {
+      StatusBar('purple');
+
+      if (!isLoading.current) {
+        refreshData();
+      }
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  );
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
+
   return (
     <Container>
       {(loading || refreshing) && <LoadingIndicator absolutePositioning />}
@@ -152,7 +166,6 @@ export default function Details({ route, navigation }) {
           />
         }
       >
-        {/* <Text>Details of the delivery</Text> */}
         {delivery && (
           <>
             <InformationContainer>

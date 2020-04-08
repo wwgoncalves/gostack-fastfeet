@@ -2,11 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
-import { StatusBar, Platform, Alert } from 'react-native';
-
-import api from '~/services/api';
-
-import { signOut } from '~/store/modules/user/actions';
+import { Alert } from 'react-native';
 
 import {
   Container,
@@ -27,11 +23,16 @@ import {
   NoContentMessage,
 } from './styles';
 
+import api from '~/services/api';
+
+import { signOut } from '~/store/modules/user/actions';
+
 import Avatar from '~/components/Avatar';
 import AvatarPlaceholder from '~/components/AvatarPlaceholder';
 import Delivery from '~/components/Delivery';
 import LoadingIndicator from '~/components/LoadingIndicator';
 import CustomRefreshControl from '~/components/CustomRefreshControl';
+import StatusBar from '~/components/StatusBar';
 
 export default function Dashboard({ navigation }) {
   const dispatch = useDispatch();
@@ -47,15 +48,6 @@ export default function Dashboard({ navigation }) {
   });
   const [deliveries, setDeliveries] = useState([]);
   const [paginationInfo, setPaginationInfo] = useState({});
-
-  useFocusEffect(
-    useCallback(() => {
-      StatusBar.setBarStyle('dark-content');
-      if (Platform.OS === 'android') {
-        StatusBar.setBackgroundColor('#fff');
-      }
-    }, [])
-  );
 
   function confirmLogout() {
     Alert.alert('Logout do app', 'Deseja realmente se deslogar?', [
@@ -91,6 +83,12 @@ export default function Dashboard({ navigation }) {
       page: 1,
     });
   }
+
+  useFocusEffect(
+    useCallback(() => {
+      StatusBar('white');
+    }, [])
+  );
 
   useEffect(() => {
     async function loadData() {

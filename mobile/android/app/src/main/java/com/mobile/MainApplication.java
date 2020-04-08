@@ -44,7 +44,7 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
-    // Disabling next line as it seems that Flipper causes errors when uploading files via XHR (RN 0.62.0)
+    // Disabling next line as it seems that Flipper causes errors when uploading files via XHR (RN 0.62.0) - https://github.com/facebook/react-native/issues/28551
     // initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
   }
 

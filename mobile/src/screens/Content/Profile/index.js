@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
-import { Alert, StatusBar, Platform } from 'react-native';
+import { Alert } from 'react-native';
 import { parseISO, format } from 'date-fns';
 
 import { Container, AvatarContainer, Content, Label, Value } from './styles';
@@ -11,6 +11,7 @@ import { signOut } from '~/store/modules/user/actions';
 import Avatar from '~/components/Avatar';
 import AvatarPlaceholder from '~/components/AvatarPlaceholder';
 import Button from '~/components/Button';
+import StatusBar from '~/components/StatusBar';
 
 export default function Profile() {
   const dispatch = useDispatch();
@@ -25,10 +26,7 @@ export default function Profile() {
 
   useFocusEffect(
     useCallback(() => {
-      StatusBar.setBarStyle('dark-content');
-      if (Platform.OS === 'android') {
-        StatusBar.setBackgroundColor('#fff');
-      }
+      StatusBar('white');
     }, [])
   );
 

@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useFocusEffect } from '@react-navigation/native';
-import { StatusBar, Platform, Keyboard, Alert } from 'react-native';
+import { Keyboard, Alert } from 'react-native';
 import Snackbar from 'react-native-snackbar';
 
 import { Container, Form, Input } from './styles';
@@ -9,17 +9,9 @@ import { Container, Form, Input } from './styles';
 import api from '~/services/api';
 
 import Button from '~/components/Button';
+import StatusBar from '~/components/StatusBar';
 
 export default function Report({ route, navigation }) {
-  useFocusEffect(
-    useCallback(() => {
-      StatusBar.setBarStyle('light-content');
-      if (Platform.OS === 'android') {
-        StatusBar.setBackgroundColor('#7d40e7');
-      }
-    }, [])
-  );
-
   const { deliveryId } = route.params;
   const [problemDescription, setProblemDescription] = useState('');
   const [sending, setSending] = useState(false);
@@ -56,6 +48,12 @@ export default function Report({ route, navigation }) {
       navigation.goBack();
     }
   }
+
+  useFocusEffect(
+    useCallback(() => {
+      StatusBar('purple');
+    }, [])
+  );
 
   return (
     <Container>

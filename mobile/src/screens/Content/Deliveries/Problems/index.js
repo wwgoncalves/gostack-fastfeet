@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useFocusEffect } from '@react-navigation/native';
-import { StatusBar, Platform, Alert } from 'react-native';
+import { Alert } from 'react-native';
 import { format, parseISO } from 'date-fns';
 
 import {
@@ -18,6 +18,7 @@ import api from '~/services/api';
 
 import LoadingIndicator from '~/components/LoadingIndicator';
 import CustomRefreshControl from '~/components/CustomRefreshControl';
+import StatusBar from '~/components/StatusBar';
 
 export default function Problems({ route }) {
   const { deliveryId } = route.params;
@@ -31,15 +32,6 @@ export default function Problems({ route }) {
     limit: 5,
   });
   const [paginationInfo, setPaginationInfo] = useState({});
-
-  useFocusEffect(
-    useCallback(() => {
-      StatusBar.setBarStyle('light-content');
-      if (Platform.OS === 'android') {
-        StatusBar.setBackgroundColor('#7d40e7');
-      }
-    }, [])
-  );
 
   function handleListEndReached() {
     if (paginationInfo.last > queryParams.page) {
@@ -57,6 +49,12 @@ export default function Problems({ route }) {
       page: 1,
     });
   }
+
+  useFocusEffect(
+    useCallback(() => {
+      StatusBar('purple');
+    }, [])
+  );
 
   useEffect(() => {
     async function loadData() {
