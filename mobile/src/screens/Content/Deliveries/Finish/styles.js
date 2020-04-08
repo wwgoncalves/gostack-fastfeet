@@ -13,8 +13,6 @@ export const CameraContainer = styled.View`
   flex: 1;
   margin-top: -90px;
   margin-bottom: 10px;
-  /* height: 383px;
-  width: 320px; */
   border-radius: 4px;
   background-color: #000;
 

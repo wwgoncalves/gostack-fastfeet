@@ -31,7 +31,7 @@ export const Input = styled.TextInput.attrs({
   elevation: 1,
 })`
   background-color: #fff;
-  height: 300px;
+  height: 280px;
   padding: 20px;
   font-size: 16px;
   color: #444;

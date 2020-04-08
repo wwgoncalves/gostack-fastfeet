@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { useFocusEffect } from '@react-navigation/native';
 import { StatusBar, Platform, Alert } from 'react-native';
 import { format, parseISO } from 'date-fns';
+import Snackbar from 'react-native-snackbar';
 
 import {
   Container,
@@ -112,6 +113,11 @@ export default function Details({ route, navigation }) {
     try {
       await api.put(`deliverymen/${profile.id}/deliveries/${deliveryId}`, {
         start_date: new Date(),
+      });
+
+      Snackbar.show({
+        text: 'Retirada registrada.',
+        duration: Snackbar.LENGTH_LONG,
       });
     } catch (error) {
       if (error.response && error.response.data && error.response.data.error) {
