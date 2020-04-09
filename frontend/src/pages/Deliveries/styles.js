@@ -60,10 +60,10 @@ export const NoContentMessage = styled.div`
 
 export const ModalContent = styled.div`
   width: 450px;
-  height: 360px;
+  height: auto;
   padding: 25px;
   position: absolute;
-  top: calc(50vh - 180px);
+  top: 30%;
   left: calc(50% - 225px);
   background-color: #fff;
   border-radius: 4px;
@@ -76,6 +76,7 @@ export const ModalContent = styled.div`
       font-size: 14px;
       font-weight: bold;
       color: #444;
+      margin-bottom: 5px;
     }
 
     span {
@@ -85,6 +86,7 @@ export const ModalContent = styled.div`
     }
 
     div {
+      position: relative;
       width: 400px;
       height: 75px;
       display: flex;
@@ -94,21 +96,45 @@ export const ModalContent = styled.div`
         margin: auto;
       }
 
+      button {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: auto;
+        height: auto;
+        padding: 0;
+        margin: 0;
+        span {
+          padding: 0;
+          margin: 0;
+          svg {
+            padding: 0;
+            margin: 0;
+          }
+        }
+      }
+
+      &:hover {
+        button {
+          display: flex;
+        }
+      }
+
       &::-webkit-scrollbar {
-        width: 2px;
-        height: 2px;
+        width: 7px;
+        height: 7px;
         background-color: #eee;
         border-radius: 4px;
       }
 
       &::-webkit-scrollbar-thumb {
-        background-color: #7d40e7;
+        background-color: #7d40e7aa;
         border-radius: 4px;
       }
 
-      &:hover::-webkit-scrollbar {
-        width: 5px;
-        height: 5px;
+      &::-webkit-scrollbar-thumb:hover {
+        background-color: #7d40e7;
       }
     }
   }

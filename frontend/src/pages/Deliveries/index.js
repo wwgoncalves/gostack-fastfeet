@@ -111,7 +111,14 @@ export default function Deliveries() {
             <h4>Assinatura do destinatário</h4>
             <div>
               {signature && (
-                <img src={signature.url} alt="Foto da assinatura" />
+                <>
+                  <img src={signature.url} alt="Foto da assinatura" />
+                  <Button
+                    icon="MdOpenInNew"
+                    title="Visualizar em nova janela"
+                    onClick={() => window.open(signature.url)}
+                  />
+                </>
               )}
             </div>
           </div>
