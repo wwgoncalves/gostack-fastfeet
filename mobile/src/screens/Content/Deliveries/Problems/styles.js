@@ -39,7 +39,6 @@ export const Problem = styled.View.attrs({
 
   flex-direction: row;
   align-items: center;
-  /* justify-content: space-between; */
 `;
 
 export const ProblemDescription = styled.Text`
@@ -59,7 +58,7 @@ export const ProblemDate = styled.Text`
 `;
 
 export const NoContentMessage = styled.Text`
-  margin-top: 70px;
+  margin-top: 50px;
   align-self: center;
   font-size: 12px;
   font-weight: normal;

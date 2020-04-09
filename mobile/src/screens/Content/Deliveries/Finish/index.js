@@ -24,7 +24,6 @@ export default function Finish({ route, navigation }) {
   function handlePhotoTaken(data) {
     setIsPhotoTaken(true);
     setPhotoData(data);
-    // console.tron.log(data);
   }
 
   function handlePhotoDiscarded() {
@@ -58,10 +57,12 @@ export default function Finish({ route, navigation }) {
         signature_id: photoId,
       });
 
-      Snackbar.show({
-        text: 'Entrega confirmada.',
-        duration: Snackbar.LENGTH_LONG,
-      });
+      setTimeout(() => {
+        Snackbar.show({
+          text: 'Entrega confirmada.',
+          duration: Snackbar.LENGTH_LONG,
+        });
+      }, 500);
     } catch (error) {
       errorOccurred = true;
       if (error.response && error.response.data && error.response.data.error) {

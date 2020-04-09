@@ -34,7 +34,7 @@ export default function Camera({ onTake, onDiscard }) {
         quality: 0.5,
         base64: true,
         pauseAfterCapture: true,
-        width: 450,
+        width: 500,
       };
       try {
         const data = await cameraRef.current.takePictureAsync(options);
