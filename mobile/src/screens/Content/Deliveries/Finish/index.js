@@ -5,7 +5,13 @@ import { useFocusEffect } from '@react-navigation/native';
 import { Alert } from 'react-native';
 import Snackbar from 'react-native-snackbar';
 
-import { Container, CameraContainer } from './styles';
+import {
+  Container,
+  CameraContainer,
+  TopMessageContainer,
+  BottomMessageContainer,
+  MessageText,
+} from './styles';
 
 import api from '~/services/api';
 
@@ -90,7 +96,13 @@ export default function Finish({ route, navigation }) {
   return (
     <Container>
       <CameraContainer>
+        <TopMessageContainer>
+          <MessageText>
+            Fotografe a assinatura do destinatário/recebedor.
+          </MessageText>
+        </TopMessageContainer>
         <Camera onTake={handlePhotoTaken} onDiscard={handlePhotoDiscarded} />
+        <BottomMessageContainer />
       </CameraContainer>
       <Button loading={sending} disabled={!isPhotoTaken} onPress={submitPhoto}>
         Enviar

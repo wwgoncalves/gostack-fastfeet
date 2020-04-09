@@ -19,3 +19,33 @@ export const CameraContainer = styled.View`
   align-items: center;
   justify-content: center;
 `;
+
+export const TopMessageContainer = styled.View`
+  position: absolute;
+  z-index: 999;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 90%;
+  background-color: #0005;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+`;
+export const BottomMessageContainer = styled.View`
+  position: absolute;
+  z-index: 999;
+  top: 0;
+  right: 90%;
+  bottom: 0;
+  left: 0;
+  background-color: #0005;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+`;
+export const MessageText = styled.Text`
+  position: absolute;
+  transform: translate(205px, 140px) rotate(90deg);
+  width: 300px;
+  color: #fff;
+  font-size: 12px;
+`;

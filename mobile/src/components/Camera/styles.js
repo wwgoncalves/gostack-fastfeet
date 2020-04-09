@@ -17,7 +17,9 @@ export const TakePhotoIcon = styled(Icon).attrs({
   name: 'photo-camera',
   size: 32,
   color: '#fff',
-})``;
+})`
+  transform: rotate(90deg);
+`;
 
 export const ActivityIndicator = styled.ActivityIndicator.attrs({
   size: 'large',
