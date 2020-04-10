@@ -78,13 +78,14 @@ _É provável que o redirecionamento de portas, entre o dispositivo Android e o 
 
 # Observações exclusivas aos certificadores
 
-- Os requisitos colocados como opcionais nas etapas de desenvolvimento também foram desenvolvidos (paginação das listagens, máscara de CEP, filtro na listagem de encomendas e scroll infinito).
-- O desenvolvimento das interfaces visuais buscou ser o mais fiel possível aos layouts entregues através da plataforma online da Adobe XD.
-- Uma ou outra decisão de design precisou ser tomada para contornar qualquer falta de especificação (p. ex. função de retirada da encomenda pelo app móvel).
+- Também foram desenvolvidos os requisitos opcionais colocados nas etapas do projeto (paginação das listagens, máscara de CEP, filtro na listagem de encomendas e scroll infinito).
+- O desenvolvimento das interfaces visuais buscou ser fiel ao resultado esperado dos layouts entregues pela plataforma online da Adobe XD. Apenas assimetrias e dimensões "quebradas" foram sendo ajustadas durante a implementação.
+- Uma e outra decisão de design precisou ser tomada para contornar qualquer falta de especificação (p. ex. função de retirada da encomenda pelo app móvel).
+- Por algum motivo, talvez limitação na emulação, o comportamento visual do componente de câmera e seu container, na tela de confirmação da entrega, é diferente entre o dispositivo físico e o emulado.
 
 # Considerações finais
 
-- Se interessou na solução e quer usá-la/estendê-la numa ideia similar? Legal!!! Toca ficha! Faça o quiser com o código, comercialmente ou não, não precisa me consultar.
+- Se interessou na solução e quer usá-la/estendê-la numa ideia similar (um serviço com tele-entregas, por exemplo)? Legal!!! Toca ficha! Use o código como quiser!
 - Seguiu o passo-a-passo, está enfrentando problemas e acredita que há algo de errado no README ou no código da aplicação, abra uma issue que lhe ajudarei.
 - Gostou da implementação e acredita que posso ajudar em projetos da sua equipe? Que massa!!! Abra uma issue por aqui para trocarmos uma ideia e contatos. :)
 
