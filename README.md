@@ -3,15 +3,17 @@
   <img alt="FASTFEET" title="Logo do projeto FastFeet" src="frontend/src/assets/fastfeet-logo.svg" width="300px" />
 </h1>
 
-<p align="center">O projeto FastFeet é uma solução ponta-a-ponta para gestão de encomendas.</p>
+<p align="center"><strong>O projeto FastFeet é uma solução simples ponta-a-ponta para gestão de encomendas.</strong></p>
 <p align="justify">Abrangendo três camadas -- server API (backend), interface web para gestão (frontend) e aplicativo móvel para entregadores (mobile) --, a aplicação é desafio final para avaliação e emissão de certificado do treinamento online <em>GoStack</em> criado e lecionado pela <a href="https://rocketseat.com.br/">Rocketseat</a>.</p>
-<p><small>Foco do bootcamp, a stack utilizada no desenvolvimento é baseada na linguagem JavaScript, composta por Node.js, ReactJS e React Native.</small></p>
+<h5><em>Foco do bootcamp, a stack utilizada no desenvolvimento é baseada na linguagem JavaScript, composta por Node.js, ReactJS e React Native.</em></h5>
 
 ---
 
-## Importante nota
+## Notas
 
 > A aplicação móvel (`mobile`) foi desenvolvida e testada apenas em ambientes **Android** -- via USB em dispositivo físico e em emulador _Genymotion_ da [Genymobile](https://www.genymobile.com/). Nenhum teste foi feito para o iOS, logo, rodar em tal ambiente pode demandar alguma adaptação no código.
+
+> Se for do interesse utilizar a solução em ambiente de produção, uma revisão e algumas alterações na segurança do projeto precisarão ser feitas.
 
 ## Instalação
 
@@ -72,7 +74,7 @@ _É provável que o redirecionamento de portas, entre dispositivo Android e comp
 ## Observações exclusivas aos avaliadores da certificação
 
 - Os requisitos colocados como opcionais nas etapas de desenvolvimento também foram desenvolvidos (paginação das listagens, máscara de CEP, filtro na listagem de encomendas e scroll infinito).
-- O desenvolvimento das interfaces visuais buscou ser o mais fiel possível aos layouts entregues através da plataform online da Adobe XD.
+- O desenvolvimento das interfaces visuais buscou ser o mais fiel possível aos layouts entregues através da plataforma online da Adobe XD.
 - Uma ou outra decisão de design precisou ser tomada para contornar qualquer falta de especificação (p. ex. função de retirada da encomenda pelo app móvel).
 
 ---
