@@ -26,7 +26,7 @@ Previamente, tenha instalado em seu ambiente o [Node.js](https://nodejs.org/) e,
 
 O projeto conta com os bancos de dados [PostgreSQL](https://www.postgresql.org/) e [Redis](https://redis.io/) no backend, portanto também precisam ser instalados. _Respectivamente, as versões 11.6 e 5.0.5 foram as utilizadas durante o desenvolvimento, através de imagens oficiais para o [Docker](https://www.docker.com/)._
 
-Mesmo desenvolvida em React Native, outras configurações ainda precisam ser feitas para que uma aplicação Android seja executada através do computador. Um guia completo de configuração e resolução de problemas foi feito pela equipe da Rocketseat e pode ser acessado [aqui](https://react-native.rocketseat.dev/).\_
+Mesmo desenvolvida em React Native, outras configurações ainda precisam ser feitas para que uma aplicação Android seja executada através do computador. Um guia completo de configuração e resolução de problemas foi feito pela equipe da Rocketseat e pode ser acessado [aqui](https://react-native.rocketseat.dev/).
 
 # Configurações necessárias
 
