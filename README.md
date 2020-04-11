@@ -40,13 +40,13 @@ A aplicação faz o envio de e-mails em algumas ocasiões &mdash; o banco de dad
 
 A solução dotenv também é utilizada no frontend em ReactJS. No arquivo `.env`, que também precisará ser disponibilizado na pasta raiz desta camada, a variável `REACT_APP_API_URL` precisa estar configurada com o endereço e a porta onde a API da aplicação (camada backend) estará rodando. Já há um arquivo `.env.example` de exemplo disponível.
 
-Se for do interesse, para debugging do _Store_ do Redux e das chamadas à API é utilizado o [Reactotron](https://github.com/infinitered/reactotron).
+Se for do interesse, para debugging do Redux, os estados de sua _Store_ e de seus _sagas_ pode ser usada a ferramenta [Reactotron](https://github.com/infinitered/reactotron), já configurada na aplicação.
 
 ## Mobile (Android)
 
 Para o aplicativo móvel, o endereço e a porta onde a API estará rodando são configurados diretamente no arquivo que exporta o serviço de chamadas à API (`mobile/src/services/api.js`).
 
-O app também está configurado para utilizar o Reactotron na inspeção do Redux e das chamadas à API. A porta padrão utilizada pelo Reactotron é a `9090` e provavelmente o redirecionamento dessa porta precisará ser feito com o comando `adb reverse tcp:9090 tcp:9090`. Dependendo de como a aplicação será executada, em dispositivo físico ou emulador, a chamada do método `configure()` no arquivo de configuração do Reactotron (`mobile/src/config/ReactotronConfig.js`) pode precisar ser editada especificando o IP do computador na rede ([um exemplo](https://github.com/infinitered/reactotron/issues/162#issuecomment-514042089)).
+O app móvel também está configurado para que se utilize o Reactotron na inspeção do Redux e, neste ambiente, a ferramenta ainda fará a interceptação das chamadas à API. A porta padrão utilizada pelo Reactotron é a `9090` e provavelmente o redirecionamento dessa porta precisará ser feito com o comando `adb reverse tcp:9090 tcp:9090`. Dependendo de como a aplicação será executada, em dispositivo físico ou emulador, a chamada do método `configure()` no arquivo de configuração do Reactotron (`mobile/src/config/ReactotronConfig.js`) pode precisar ser editada especificando o IP do computador na rede ([um exemplo](https://github.com/infinitered/reactotron/issues/162#issuecomment-514042089)).
 
 # Execução dos ambientes
 
