@@ -37,10 +37,10 @@ export default function Recipient({ match }) {
     try {
       if (recipientId) {
         await api.put(`recipients/${recipientId}`, data);
-        toast.success('Dados atualizados com sucesso!');
+        toast.success('Destinatário atualizado com sucesso!');
       } else {
         await api.post('recipients', data);
-        toast.success('Dados cadastrados com sucesso!');
+        toast.success('Destinatário cadastrado com sucesso!');
       }
 
       history.push('/recipients');

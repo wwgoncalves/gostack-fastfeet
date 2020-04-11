@@ -124,7 +124,7 @@ export default function Recipients() {
         recipient.name,
         `${recipient.street}, ${recipient.number}${
           recipient.complement ? `, ${recipient.complement}` : ''
-        }, ${recipient.city} - ${recipient.state}`,
+        }, ${recipient.city} - ${recipient.state}, ${recipient.cep}`,
         <ContextMenu menuActions={menuActions} contextId={recipient.id} />,
       ]);
 

@@ -39,6 +39,10 @@ export default createGlobalStyle`
     cursor: pointer;
   }
 
+  button::-moz-focus-inner {
+    border: 0;
+  }
+
   .Toastify__toast {
     font: 15px 'Roboto', sans-serif;
     border-radius: 4px;

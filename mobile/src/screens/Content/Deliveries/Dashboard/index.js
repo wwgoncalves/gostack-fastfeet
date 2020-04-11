@@ -134,7 +134,7 @@ export default function Dashboard({ navigation }) {
                   <AvatarPlaceholder size={64} name={profile.name} />
                 )}
                 <MiddleTop>
-                  <WelcomeBack>Bem vindo de volta,</WelcomeBack>
+                  <WelcomeBack>Bem-vindo(a) de volta,</WelcomeBack>
                   <Username>{profile.name}</Username>
                 </MiddleTop>
               </LeftTop>

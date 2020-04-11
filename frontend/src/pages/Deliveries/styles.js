@@ -27,7 +27,6 @@ export const SearchAndFilter = styled.div`
 
   input[type='checkbox'] {
     margin-left: 20px;
-    transform: scale(1.3);
   }
 
   label {

@@ -31,10 +31,10 @@ export default function Deliveryman({ match }) {
     try {
       if (deliverymanId) {
         await api.put(`deliverymen/${deliverymanId}`, data);
-        toast.success('Dados atualizados com sucesso!');
+        toast.success('Entregador atualizado com sucesso!');
       } else {
         await api.post('deliverymen', data);
-        toast.success('Dados cadastrados com sucesso!');
+        toast.success('Entregador cadastrado com sucesso!');
       }
 
       history.push('/deliverymen');

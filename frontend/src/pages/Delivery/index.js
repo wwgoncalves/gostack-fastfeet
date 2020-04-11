@@ -78,10 +78,10 @@ export default function Delivery({ match }) {
     try {
       if (deliveryId) {
         await api.put(`deliveries/${deliveryId}`, data);
-        toast.success('Dados atualizados com sucesso!');
+        toast.success('Encomenda atualizada com sucesso!');
       } else {
         await api.post('deliveries', data);
-        toast.success('Dados cadastrados com sucesso!');
+        toast.success('Encomenda cadastrada com sucesso!');
       }
 
       history.push('/deliveries');
