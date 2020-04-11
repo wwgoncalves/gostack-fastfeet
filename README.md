@@ -20,11 +20,11 @@ Foco do bootcamp, a stack utilizada no desenvolvimento é baseada na linguagem J
 
 # Instalação
 
-Para os três ambientes da aplicação, `backend`, `frontend` e `mobile`, a instalação é feita pela execução do comando `yarn` (ou `npm install`) dentro de suas respectivas pastas.
+Previamente, tenha instalado em seu ambiente o [Node.js](https://nodejs.org/) e o [Yarn](https://yarnpkg.com/). _Durante o desenvolvimento deste projeto, foram utilizadas as versões 10.16.3 do Node.js e 1.21.1 do Yarn._
 
-Previamente, tenha instalado em seu ambiente o [Node.js](https://nodejs.org/) e, caso utilizado, o [Yarn](https://yarnpkg.com/). _Durante o desenvolvimento deste projeto, foram utilizadas as versões 10.16.3 do Node.js (com a versão 6.9.0 do npm) e 1.21.1 do Yarn._
+Para os três ambientes da aplicação, `backend`, `frontend` e `mobile`, a instalação é feita pela execução do comando `yarn` dentro de suas respectivas pastas.
 
-O projeto conta com os bancos de dados [PostgreSQL](https://www.postgresql.org/) e [Redis](https://redis.io/) no backend, portanto também precisam ser instalados. _Respectivamente, as versões 11.6 e 5.0.5 foram as utilizadas durante o desenvolvimento, através de imagens oficiais para o [Docker](https://www.docker.com/)._
+O projeto conta com os SGBDs [PostgreSQL](https://www.postgresql.org/) e [Redis](https://redis.io/) no backend, portanto também precisam ser instalados. _Respectivamente, as versões 11.6 e 5.0.5 foram as utilizadas durante o desenvolvimento, através de imagens oficiais para o [Docker](https://www.docker.com/)._
 
 Mesmo desenvolvida em React Native, outras configurações ainda precisam ser feitas para que uma aplicação Android seja executada através do computador. Um guia completo de configuração e resolução de problemas foi feito pela equipe da Rocketseat e pode ser acessado [aqui](https://react-native.rocketseat.dev/).
 
@@ -32,9 +32,18 @@ Mesmo desenvolvida em React Native, outras configurações ainda precisam ser fe
 
 ## Backend
 
-O backend utiliza a biblioteca [dotenv](https://github.com/motdotla/dotenv) para gerenciar algumas variáveis do ambiente da aplicação. Um arquivo `.env` deve ser disponibilizado na pasta raiz desta camada, seguindo como exemplo o arquivo `.env.example` disponível na pasta, preenchendo-se as variáveis sem valores atribuídos.
+Primeiramente, crie um banco de dados no PostgreSQL para a aplicação &mdash; uma aplicação com interface gráfica como o [Postbird](https://github.com/Paxa/postbird) pode ser utilizada. O enconding "UTF8" pode ser o utilizado para o banco de dados.
 
-A aplicação faz o envio de e-mails em algumas ocasiões &mdash; o banco de dados Redis é utilizado exclusivamente na gestão das filas de e-mails a enviar. Entre as variávies de ambiente, as iniciadas com `MAIL_` servem para a configuração do servidor SMTP responsável pelo envio. Nelas podem ser configurados serviços de teste de envio de e-mails como o [Mailtrap](https://mailtrap.io/), por exemplo.
+O backend utiliza a biblioteca [dotenv](https://github.com/motdotla/dotenv) para gerenciar algumas variáveis do ambiente da aplicação. Um arquivo `.env` (exatamente com este nome) deve ser disponibilizado na pasta raiz desta camada, seguindo como exemplo o arquivo `.env.example` disponível na pasta. Todas as variáveis devem ser preenchidas. As variáveis sem valores atribuídos devem ser preenchidas conforme as configurações locais do seu ambiente. _Por exemplo, como valor da variável `DB_NAME`, o nome dado ao banco de dados criado anteriormente deverá ser preenchido._ As variáveis já preenchidas no arquivo de exemplo definem configurações da aplicação, mas também podem ser alteradas.
+
+A aplicação faz o envio de e-mails em algumas ocasiões &mdash; o SGBD Redis é utilizado exclusivamente na gestão das filas de e-mails a enviar. Entre as variávies de ambiente, as iniciadas com `MAIL_` servem para a configuração do servidor SMTP responsável pelo envio. Nelas podem ser configurados serviços de teste de envio de e-mails como o [Mailtrap](https://mailtrap.io/), por exemplo. É comum que o Redis, variáveis `REDIS_`, seja configurado para o host `127.0.0.1` (endereço local) e porta `6379`.
+
+Com todas as variáveis de ambiente configuradas e salvas no arquivo `.env` na pasta `backend/`, na mesma pasta, execute o seguinte:
+
+| Comando                      | Função                                                          |
+| ---------------------------- | --------------------------------------------------------------- |
+| `yarn sequelize db:migrate`  | Executa as _migrations_ (criações/alterações de tabelas) no BD. |
+| `yarn sequelize db:seed:all` | Executa a _seed_ que cria o usuário administrador no BD.        |
 
 ## Frontend
 
@@ -65,6 +74,8 @@ _Os bancos PostgreSQL e Redis devem ser previamente iniciados._
 | ------------ | ------------------------------------------------------------------------ |
 | `yarn start` | Inicia a aplicação web (uma janela do navegador abrirá automaticamente). |
 
+_Na tela de login, acesse o sistema com as credenciais do usuário administrador criado anteriormente: e-mail `admin@fastfeet.com` e senha `123456`._
+
 ## Mobile (Android)
 
 | Comando                                | Função                                                                   |
@@ -74,7 +85,9 @@ _Os bancos PostgreSQL e Redis devem ser previamente iniciados._
 
 _Possivelmente um bug, mudar a ordem da execução dos comandos acima resulta numa aplicação "em branco" no dispositivo._
 
-_É provável que o redirecionamento de portas, entre o dispositivo Android e o computador rodandos os serviços, precise ser realizado. Particularmente, o seguinte comando é o que tenho utilizado via terminal e ele abrange todas as portas necessárias pelas configurações originais: `adb reverse tcp:3333 tcp:3333 && adb reverse tcp:8081 tcp:8081 && adb reverse tcp:9090 tcp:9090`_
+É provável que o redirecionamento de portas, entre o dispositivo Android e o computador rodandos os serviços, precise ser realizado. Particularmente, o seguinte comando é o que tem sido utilizado via terminal e que abrange todas as portas necessárias pelas configurações originais: `adb reverse tcp:3333 tcp:3333 && adb reverse tcp:8081 tcp:8081 && adb reverse tcp:9090 tcp:9090`.
+
+_Para acessar as funções do app, um entregador precisará ser criado pelo usuário administrador no frontend web de gestão. Apenas o número identificador do entregador, gerado automaticamente, é usado no login do app._
 
 # Observações exclusivas aos certificadores
 
