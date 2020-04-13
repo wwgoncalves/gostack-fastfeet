@@ -85,7 +85,7 @@ _Na tela de login, acesse o sistema com as credenciais do usuário administrador
 
 _Possivelmente um bug, mudar a ordem da execução dos comandos acima resulta numa aplicação "em branco" no dispositivo._
 
-É provável que o redirecionamento de portas, entre o dispositivo Android e o computador rodandos os serviços, precise ser realizado. Particularmente, o seguinte comando é o que tem sido utilizado via terminal e que abrange todas as portas necessárias pelas configurações originais: `adb reverse tcp:3333 tcp:3333 && adb reverse tcp:8081 tcp:8081 && adb reverse tcp:9090 tcp:9090`.
+É provável que o redirecionamento de portas, entre o dispositivo Android e o computador rodandos os serviços, precise ser realizado. Particularmente, o seguinte comando é o que tem sido utilizado via terminal e que abrange todas as portas necessárias pelas configurações originais: `adb reverse tcp:3333 tcp:3333 && adb reverse tcp:8081 tcp:8081 && adb reverse tcp:9090 tcp:9090`. _Esse comando será fundamental se, no arquivo `.env` da camada `backend`, as variáveis ambiente `APP_URL` estiver configurada como `localhost` e a `PORT` como `3333`, conforme as configurações originais de exemplo dada àquela camada._
 
 _Para acessar as funções do app, um entregador precisará ser criado pelo usuário administrador no frontend web de gestão. Apenas o número identificador do entregador, gerado automaticamente, é usado no login do app._
 
