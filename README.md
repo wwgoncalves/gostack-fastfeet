@@ -12,6 +12,14 @@ Foco do bootcamp, a stack utilizada no desenvolvimento é baseada na linguagem J
 
 ---
 
+# Screenshots
+<h2 align="center">
+  <img alt="Screenshot" title="Interface web no navegador" src="screenshots/browser/browser1.png" width="300px" /> <img alt="Screenshot" title="Interface web no navegador" src="screenshots/browser/browser2.png" width="300px" /> <img alt="Screenshot" title="Interface web no navegador" src="screenshots/browser/browser3.png" width="300px" /> <br> <img alt="Screenshot" title="Interface web no navegador" src="screenshots/browser/browser4.png" width="300px" /> <img alt="Screenshot" title="Interface web no navegador" src="screenshots/browser/browser5.png" width="300px" /> <img alt="Screenshot" title="Interface web no navegador" src="screenshots/browser/browser6.png" width="300px" /> <br><br>
+  <img alt="Screenshot" title="Interface mobile" src="screenshots/mobile/mobile1.png" width="150px" /> <img alt="Screenshot" title="Interface mobile" src="screenshots/mobile/mobile2.png" width="150px" /> <img alt="Screenshot" title="Interface mobile" src="screenshots/mobile/mobile3.png" width="150px" /> <img alt="Screenshot" title="Interface mobile" src="screenshots/mobile/mobile4.png" width="150px" /> <img alt="Screenshot" title="Interface mobile" src="screenshots/mobile/mobile5.png" width="150px" /> <br> <img alt="Screenshot" title="Interface mobile" src="screenshots/mobile/mobile6.png" width="150px" /> <img alt="Screenshot" title="Interface mobile" src="screenshots/mobile/mobile7.png" width="150px" /> <img alt="Screenshot" title="Interface mobile" src="screenshots/mobile/mobile8.png" width="150px" /> <img alt="Screenshot" title="Interface mobile" src="screenshots/mobile/mobile9.png" width="150px" /> <img alt="Screenshot" title="Interface mobile" src="screenshots/mobile/mobile10.png" width="150px" />
+</h2>
+
+---
+
 # Importante
 
 > A aplicação móvel (`mobile`) foi desenvolvida e testada apenas em sistemas **Android** &mdash; via USB em dispositivo físico e em emulador _Genymotion_ da [Genymobile](https://www.genymobile.com/). Nenhum teste foi feito para o iOS, logo, rodar em tal sistema pode demandar alguma adaptação no código.
